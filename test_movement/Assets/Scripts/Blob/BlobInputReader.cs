@@ -3,6 +3,10 @@ using UnityEngine.InputSystem;
 
 namespace BlobGame.Player
 {
+    /// <summary>
+    /// Converts Unity Input System actions into player movement and jump intent.
+    /// Falls back to direct keyboard input when no InputActionAsset is assigned.
+    /// </summary>
     public sealed class BlobInputReader : MonoBehaviour
     {
         [SerializeField] private InputActionAsset inputActions;
@@ -14,6 +18,9 @@ namespace BlobGame.Player
         private InputAction moveAction;
         private InputAction jumpAction;
 
+        /// <summary>
+        /// Horizontal movement input in the range -1 to 1.
+        /// </summary>
         public float MoveX
         {
             get
@@ -34,6 +41,9 @@ namespace BlobGame.Player
             }
         }
 
+        /// <summary>
+        /// True only on the frame when the jump action is pressed.
+        /// </summary>
         public bool JumpPressed
         {
             get
@@ -45,6 +55,9 @@ namespace BlobGame.Player
             }
         }
 
+        /// <summary>
+        /// True only on the frame when the jump action is released.
+        /// </summary>
         public bool JumpReleased
         {
             get
@@ -72,6 +85,7 @@ namespace BlobGame.Player
             if (inputActions == null)
                 return;
 
+            // Resolve actions by name so this component can use a shared InputActionAsset.
             playerMap = inputActions.FindActionMap(actionMapName, false);
             moveAction = playerMap?.FindAction(moveActionName, false);
             jumpAction = playerMap?.FindAction(jumpActionName, false);

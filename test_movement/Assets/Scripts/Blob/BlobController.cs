@@ -4,17 +4,26 @@ using UnityEngine;
 
 namespace BlobGame.Player
 {
+    /// <summary>
+    /// Coordinates player input, environment sensors, locomotion states,
+    /// and Rigidbody2D movement operations.
+    /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(BlobInputReader), typeof(BlobSensors))]
     public sealed class BlobController : MonoBehaviour
     {
         [Header("Movement")]
+        [Tooltip("Horizontal movement speed while grounded.")]
         [SerializeField, Min(0f)] private float moveSpeed = 6f;
+        [Tooltip("Fraction of grounded movement speed available while airborne.")]
         [SerializeField, Range(0f, 1f)] private float airControl = 0.8f;
+        [Tooltip("Horizontal input values below this threshold are treated as zero.")]
         [SerializeField, Min(0f)] private float inputDeadZone = 0.05f;
 
         [Header("Jump")]
+        [Tooltip("Gameplay weight used to evaluate the jump-speed curve.")]
         [SerializeField, Min(0f)] private float currentWeight = 3f;
+        [Tooltip("Maps gameplay weight on the X axis to initial jump speed on the Y axis.")]
         [SerializeField] private AnimationCurve jumpSpeedByWeight = new(
             new Keyframe(1f, 15f),
             new Keyframe(2f, 14f),
@@ -27,7 +36,9 @@ namespace BlobGame.Player
         [SerializeField, Min(0f)] private float releasedRiseGravityScale = 5f;
         [Tooltip("Gravity used while falling. A higher value produces a faster, more responsive descent.")]
         [SerializeField, Min(0f)] private float fallGravityScale = 7f;
+        [Tooltip("Fraction of upward velocity retained when jump is released.")]
         [SerializeField, Range(0f, 1f)] private float jumpCutMultiplier = 0.6f;
+        [Tooltip("Maximum downward speed, stored as a positive value.")]
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
         private BlobStateMachine stateMachine;
@@ -48,6 +59,10 @@ namespace BlobGame.Player
         public float ReleasedRiseGravityScale => releasedRiseGravityScale;
         public float FallGravityScale => fallGravityScale;
         public bool HasMoveInput => Mathf.Abs(Input.MoveX) > inputDeadZone;
+
+        /// <summary>
+        /// Name of the active locomotion state, exposed for debugging.
+        /// </summary>
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name ?? "None";
 
         private void Awake()
@@ -57,6 +72,8 @@ namespace BlobGame.Player
             Sensors = GetComponent<BlobSensors>();
 
             stateMachine = new BlobStateMachine();
+
+            // Create each state once and reuse it to avoid allocations during transitions.
             IdleState = new BlobIdleState(this);
             MoveState = new BlobMoveState(this);
             JumpState = new BlobJumpState(this);
@@ -114,6 +131,10 @@ namespace BlobGame.Player
             Body.linearVelocity = new Vector2(Body.linearVelocity.x, speed);
         }
 
+        /// <summary>
+        /// Reduces only the remaining upward velocity to produce a shorter jump.
+        /// Has no effect after the player begins falling.
+        /// </summary>
         public void CutJump()
         {
             float verticalSpeed = Body.linearVelocity.y;
