@@ -69,6 +69,9 @@ namespace BlobGame.Player
             }
         }
 
+        /// <summary>
+        /// draw the checkbox
+        /// </summary>
         private void OnDrawGizmosSelected()
         {
             Collider2D target = bodyCollider != null ? bodyCollider : GetComponent<Collider2D>();
