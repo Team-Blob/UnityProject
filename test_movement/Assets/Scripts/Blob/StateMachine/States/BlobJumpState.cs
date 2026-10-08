@@ -1,3 +1,5 @@
+using BlobGame.Player.Animation;
+
 namespace BlobGame.Player.StateMachine.States
 {
     public sealed class BlobJumpState : BlobState
@@ -13,6 +15,7 @@ namespace BlobGame.Player.StateMachine.States
             jumpCutApplied = false;
             Blob.SetGravity(Blob.RiseGravityScale);
             Blob.SetVerticalVelocity(Blob.GetCurrentJumpSpeed());
+            Blob.Animation.Play(BlobAnimationId.JumpRise);
         }
 
         public override BlobState Tick(float deltaTime)

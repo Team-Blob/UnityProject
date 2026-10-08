@@ -10,9 +10,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f41f758-8171-43c1-946f-d7caac8df6da" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestScene_Helen.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestScene_Helen.unity" afterDir="false" />
-    </list>
+    <list default="true" id="f37f5f4f-8caa-47fa-b06a-6dd3113e655d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,11 +23,70 @@
     <commands />
     <urls />
   </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0" />
+      <entry key="S60" value="1.0" />
+      <entry key="M2" value="1.0" />
+      <entry key="M5" value="1.0" />
+      <entry key="M10" value="1.0" />
+      <entry key="M15" value="1.0" />
+      <entry key="M30" value="1.0" />
+      <entry key="H1" value="1.0" />
+      <entry key="H2" value="1.0" />
+      <entry key="H4" value="1.0" />
+      <entry key="D1" value="1.0" />
+      <entry key="W1" value="1.0" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.3135732601602205E-7" />
+      <entry key="MS500" value="0.04204272526630706" />
+      <entry key="S2" value="0.4528169915089114" />
+      <entry key="S5" value="0.7283985724660905" />
+      <entry key="S10" value="0.8534626954156171" />
+      <entry key="S30" value="0.9485528086843412" />
+      <entry key="S60" value="0.973936758051744" />
+      <entry key="M2" value="0.9868823425574824" />
+      <entry key="M5" value="0.9947321425666836" />
+      <entry key="M10" value="0.9973625933263608" />
+      <entry key="M15" value="0.9982409550975608" />
+      <entry key="M30" value="0.9991200904283533" />
+      <entry key="H1" value="0.9995599483914676" />
+      <entry key="H2" value="0.9997799499847292" />
+      <entry key="H4" value="0.9998899689389474" />
+      <entry key="D1" value="0.9999816606490156" />
+      <entry key="W1" value="0.9999973800721246" />
+    </decayedShown>
+  </component>
   <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6,
+  "associatedIndex": 7,
   "fromUser": false
 }]]></component>
-  <component name="ProjectId" id="3KIXeRwHfKUKyrCQSF7OOinfygM" />
+  <component name="ProjectId" id="3KNBngHoU4Bo5EB3NX0HCdPYJvY" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -45,7 +102,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "test__movement",
+    "git-widget-placeholder": "wildtry__helen",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -56,8 +113,8 @@
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="F:\Unity6\Editor\6000.6.4f1\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-projectPath F:\GithubFiles\TeamBlob\UnityProject\test_movement -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="F:\GithubFiles\TeamBlob\UnityProject\test_movement" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath F:\GithubFiles\TeamBlob\UnityProject_wildtry\UnityProject\test_movement -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="F:\GithubFiles\TeamBlob\UnityProject_wildtry\UnityProject\test_movement" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
@@ -66,8 +123,8 @@
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="F:\Unity6\Editor\6000.6.4f1\Editor\Unity.exe" />
-      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath F:\GithubFiles\TeamBlob\UnityProject\test_movement -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
-      <option name="WORKING_DIRECTORY" value="F:\GithubFiles\TeamBlob\UnityProject\test_movement" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath F:\GithubFiles\TeamBlob\UnityProject_wildtry\UnityProject\test_movement -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="F:\GithubFiles\TeamBlob\UnityProject_wildtry\UnityProject\test_movement" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
@@ -93,11 +150,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3f41f758-8171-43c1-946f-d7caac8df6da" name="Changes" comment="" />
-      <created>1791246162818</created>
+      <changelist id="f37f5f4f-8caa-47fa-b06a-6dd3113e655d" name="Changes" comment="" />
+      <created>1791388316969</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1791246162818</updated>
+      <updated>1791388316969</updated>
     </task>
     <servers />
   </component>

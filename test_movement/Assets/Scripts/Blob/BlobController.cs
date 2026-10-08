@@ -1,3 +1,5 @@
+using BlobGame.Player.Animation;
+using BlobGame.Player.Forms;
 using BlobGame.Player.StateMachine;
 using BlobGame.Player.StateMachine.States;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace BlobGame.Player
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
     [RequireComponent(typeof(BlobInputReader), typeof(BlobSensors))]
+    [RequireComponent(typeof(BlobAnimationDriver), typeof(BlobMaterialController))]
     public sealed class BlobController : MonoBehaviour
     {
         [Header("Movement")]
@@ -42,19 +45,27 @@ namespace BlobGame.Player
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
         private BlobStateMachine stateMachine;
+        private float activeWeight;
+        private float materialMoveSpeedMultiplier = 1f;
+        private float materialAirControlMultiplier = 1f;
+        private float materialJumpSpeedMultiplier = 1f;
+        private float materialGravityMultiplier = 1f;
 
         public Rigidbody2D Body { get; private set; }
         public BlobInputReader Input { get; private set; }
         public BlobSensors Sensors { get; private set; }
+        public BlobAnimationDriver Animation { get; private set; }
+        public BlobMaterialController Materials { get; private set; }
 
         public BlobIdleState IdleState { get; private set; }
         public BlobMoveState MoveState { get; private set; }
         public BlobJumpState JumpState { get; private set; }
         public BlobFallState FallState { get; private set; }
+        public BlobTransformState TransformState { get; private set; }
 
-        public float MoveSpeed => moveSpeed;
-        public float AirMoveSpeed => moveSpeed * airControl;
-        public float CurrentWeight => currentWeight;
+        public float MoveSpeed => moveSpeed * materialMoveSpeedMultiplier;
+        public float AirMoveSpeed => MoveSpeed * airControl * materialAirControlMultiplier;
+        public float CurrentWeight => activeWeight;
         public float RiseGravityScale => riseGravityScale;
         public float ReleasedRiseGravityScale => releasedRiseGravityScale;
         public float FallGravityScale => fallGravityScale;
@@ -70,6 +81,9 @@ namespace BlobGame.Player
             Body = GetComponent<Rigidbody2D>();
             Input = GetComponent<BlobInputReader>();
             Sensors = GetComponent<BlobSensors>();
+            Animation = GetComponent<BlobAnimationDriver>();
+            Materials = GetComponent<BlobMaterialController>();
+            activeWeight = currentWeight;
 
             stateMachine = new BlobStateMachine();
 
@@ -78,10 +92,12 @@ namespace BlobGame.Player
             MoveState = new BlobMoveState(this);
             JumpState = new BlobJumpState(this);
             FallState = new BlobFallState(this);
+            TransformState = new BlobTransformState(this);
         }
 
         private void Start()
         {
+            Materials.Initialize();
             Sensors.Refresh();
             stateMachine.Initialize(Sensors.IsGrounded ? IdleState : FallState);
         }
@@ -90,6 +106,8 @@ namespace BlobGame.Player
         {
             // Evaluate frame-based input and state transitions once per rendered frame.
             Sensors.Refresh();
+            if (Input.CycleMaterialPressed)
+                Materials.RequestNextMaterial();
             stateMachine.Tick(Time.deltaTime);
         }
 
@@ -123,7 +141,7 @@ namespace BlobGame.Player
 
         public float GetCurrentJumpSpeed()
         {
-            return Mathf.Max(0f, jumpSpeedByWeight.Evaluate(currentWeight));
+            return Mathf.Max(0f, jumpSpeedByWeight.Evaluate(activeWeight) * materialJumpSpeedMultiplier);
         }
 
         public void SetVerticalVelocity(float speed)
@@ -144,13 +162,42 @@ namespace BlobGame.Player
 
         public void SetGravity(float gravityScale)
         {
-            Body.gravityScale = gravityScale;
+            Body.gravityScale = gravityScale * materialGravityMultiplier;
         }
 
         public void ClampFallSpeed()
         {
             if (Body.linearVelocity.y < -maxFallSpeed)
                 SetVerticalVelocity(-maxFallSpeed);
+        }
+
+        #endregion
+
+        #region Material Operations
+
+        public bool RequestMaterialTransform(BlobMaterialProfile targetProfile)
+        {
+            if (stateMachine == null || stateMachine.CurrentState == null ||
+                Materials.CurrentProfile == targetProfile ||
+                !TransformState.Prepare(targetProfile))
+            {
+                return false;
+            }
+
+            stateMachine.ForceChangeState(TransformState);
+            return stateMachine.CurrentState == TransformState;
+        }
+
+        public void ApplyMaterialTraits(BlobMaterialProfile profile)
+        {
+            if (profile == null)
+                return;
+
+            activeWeight = profile.Weight;
+            materialMoveSpeedMultiplier = profile.MoveSpeedMultiplier;
+            materialAirControlMultiplier = profile.AirControlMultiplier;
+            materialJumpSpeedMultiplier = profile.JumpSpeedMultiplier;
+            materialGravityMultiplier = profile.GravityMultiplier;
         }
 
         #endregion

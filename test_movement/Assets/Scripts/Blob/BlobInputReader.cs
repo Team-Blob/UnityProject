@@ -13,10 +13,12 @@ namespace BlobGame.Player
         [SerializeField] private string actionMapName = "Player";
         [SerializeField] private string moveActionName = "Move";
         [SerializeField] private string jumpActionName = "Jump";
+        [SerializeField] private string cycleMaterialActionName = "CycleMaterial";
 
         private InputActionMap playerMap;
         private InputAction moveAction;
         private InputAction jumpAction;
+        private InputAction cycleMaterialAction;
 
         /// <summary>
         /// Horizontal movement input in the range -1 to 1.
@@ -69,6 +71,21 @@ namespace BlobGame.Player
             }
         }
 
+        /// <summary>
+        /// Test-only input that requests the next configured Blob material.
+        /// </summary>
+        public bool CycleMaterialPressed
+        {
+            get
+            {
+                bool actionPressed = cycleMaterialAction != null &&
+                    cycleMaterialAction.WasPressedThisFrame();
+                bool testKeyPressed = Keyboard.current != null &&
+                    Keyboard.current.tKey.wasPressedThisFrame;
+                return actionPressed || testKeyPressed;
+            }
+        }
+
         private void OnEnable()
         {
             ResolveActions();
@@ -89,6 +106,7 @@ namespace BlobGame.Player
             playerMap = inputActions.FindActionMap(actionMapName, false);
             moveAction = playerMap?.FindAction(moveActionName, false);
             jumpAction = playerMap?.FindAction(jumpActionName, false);
+            cycleMaterialAction = playerMap?.FindAction(cycleMaterialActionName, false);
         }
     }
 }

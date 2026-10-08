@@ -1,9 +1,16 @@
+using BlobGame.Player.Animation;
+
 namespace BlobGame.Player.StateMachine.States
 {
     public sealed class BlobIdleState : BlobGroundedState
     {
         public BlobIdleState(BlobController blob) : base(blob)
         {
+        }
+
+        public override void Enter()
+        {
+            Blob.Animation.Play(BlobAnimationId.Idle);
         }
 
         public override BlobState Tick(float deltaTime)

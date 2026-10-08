@@ -1,3 +1,5 @@
+using BlobGame.Player.Animation;
+
 namespace BlobGame.Player.StateMachine.States
 {
     public sealed class BlobFallState : BlobState
@@ -9,6 +11,7 @@ namespace BlobGame.Player.StateMachine.States
         public override void Enter()
         {
             Blob.SetGravity(Blob.FallGravityScale);
+            Blob.Animation.Play(BlobAnimationId.Fall);
         }
 
         public override BlobState Tick(float deltaTime)

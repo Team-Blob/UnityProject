@@ -1391,6 +1391,9 @@ GameObject:
   - component: {fileID: 1961417772}
   - component: {fileID: 1961417771}
   - component: {fileID: 1961417770}
+  - component: {fileID: 1961417777}
+  - component: {fileID: 1961417776}
+  - component: {fileID: 1961417775}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1578,6 +1581,7 @@ MonoBehaviour:
   actionMapName: Player
   moveActionName: Move
   jumpActionName: Jump
+  cycleMaterialActionName: CycleMaterial
 --- !u!70 &1961417773
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1642,6 +1646,57 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1961417775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961417767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa312435497bec45912da3ada5f0143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.Forms.BlobMaterialController
+  initialMaterial: 0
+  profiles:
+  - {fileID: 11400000, guid: 0520d15505135c644911160c5991b41d, type: 2}
+  - {fileID: 11400000, guid: f9b7aff0f6db825429cc01615b8d19b3, type: 2}
+--- !u!114 &1961417776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961417767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385e7dde1ac6c95489282ef81b5d78a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.Animation.BlobAnimationDriver
+  defaultCrossFadeDuration: 0.08
+--- !u!95 &1961417777
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961417767}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: ba40962cd9ed8be48a4c94d8f6b1793d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
