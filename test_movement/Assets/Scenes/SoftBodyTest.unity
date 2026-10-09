@@ -481,10 +481,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -725,10 +725,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -969,10 +969,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1352,10 +1352,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1596,10 +1596,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1840,10 +1840,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -2149,6 +2149,7 @@ GameObject:
   - component: {fileID: 1762472126}
   - component: {fileID: 1762472125}
   - component: {fileID: 1762472124}
+  - component: {fileID: 1762472128}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -2204,7 +2205,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -2301,6 +2302,27 @@ Transform:
   - {fileID: 2089513100}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1762472128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762472123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446547a70696022448518e07cb414e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoftBody
+  spriteShape: {fileID: 2089513101}
+  points:
+  - {fileID: 519138138}
+  - {fileID: 1281175618}
+  - {fileID: 494761006}
+  - {fileID: 494208977}
+  - {fileID: 752862256}
+  - {fileID: 1090657910}
+  - {fileID: 1762472127}
 --- !u!1 &2089513099
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,8 +2388,8 @@ MonoBehaviour:
       corner: 1
       m_CornerMode: 1
     - position: {x: -0.9011341, y: 1.4420556, z: 0}
-      leftTangent: {x: -0.44659492, y: -0.24376157, z: -0}
-      rightTangent: {x: 0.43124312, y: 0.2353822, z: 0}
+      leftTangent: {x: -0.43089512, y: -0.27054772, z: -0}
+      rightTangent: {x: 0.25846678, y: 0.1622845, z: 0}
       mode: 1
       height: 1
       spriteIndex: 0
@@ -2474,8 +2496,8 @@ SpriteShapeRenderer:
   m_ShapeTexture: {fileID: 0}
   m_Sprites: []
   m_LocalAABB:
-    m_Center: {x: 0.035070658, y: -0.00960505, z: 0}
-    m_Extent: {x: 1.7256665, y: 1.6388882, z: 0}
+    m_Center: {x: 0.035070658, y: -0.02188754, z: 0}
+    m_Extent: {x: 1.7256665, y: 1.6266057, z: 0}
   m_SpriteSortPoint: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
