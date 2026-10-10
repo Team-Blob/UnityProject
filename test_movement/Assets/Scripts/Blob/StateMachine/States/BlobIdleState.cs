@@ -8,11 +8,17 @@ namespace BlobGame.Player.StateMachine.States
 
         public override BlobState Tick(float deltaTime)
         {
-            BlobState transition = GetMovementTransition();
+            BlobState transition = TickGrounded();
             if (transition != null)
                 return transition;
 
-            return Blob.HasMoveInput ? Blob.MoveState : null;
+            if (Blob.Input.SprintPressed)
+                return Blob.SprintState;
+
+            if (Blob.HasMoveInput)
+                return Blob.MoveState;
+
+            return null;
         }
 
         public override void FixedTick(float fixedDeltaTime)

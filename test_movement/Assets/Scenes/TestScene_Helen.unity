@@ -1488,6 +1488,9 @@ MonoBehaviour:
   moveSpeed: 6
   airControl: 0.8
   inputDeadZone: 0.05
+  sprintBurstSpeed: 20
+  sprintBurstDuration: 0.08
+  sustainedSprintSpeed: 8
   currentWeight: 1
   jumpSpeedByWeight:
     serializedVersion: 2
@@ -1578,6 +1581,7 @@ MonoBehaviour:
   actionMapName: Player
   moveActionName: Move
   jumpActionName: Jump
+  sprintActionName: Sprint
 --- !u!70 &1961417773
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

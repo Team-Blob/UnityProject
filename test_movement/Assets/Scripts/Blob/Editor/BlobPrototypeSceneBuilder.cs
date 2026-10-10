@@ -165,6 +165,9 @@ namespace BlobGame.Editor
             controllerObject.FindProperty("fallGravityScale").floatValue = 7f;
             controllerObject.FindProperty("jumpCutMultiplier").floatValue = 0.6f;
             controllerObject.FindProperty("maxFallSpeed").floatValue = 20f;
+            controllerObject.FindProperty("sprintBurstSpeed").floatValue = 10f;
+            controllerObject.FindProperty("sprintBurstDuration").floatValue = 0.18f;
+            controllerObject.FindProperty("sustainedSprintSpeed").floatValue = 8f;
             controllerObject.ApplyModifiedPropertiesWithoutUndo();
 
             SpriteRenderer renderer = player.GetComponent<SpriteRenderer>();
