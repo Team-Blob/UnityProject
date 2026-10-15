@@ -30,14 +30,14 @@ public class SoftBody : MonoBehaviour
     {
         //Make sure to turn all of the circles other children off before testing this one
         //You can do that by selecting them and clicking the checkmaerk, though I'm sure you know that
-        //spawnCircles();
+        spawnCircles();
 
         //This method specifically doesn't work.
         //SetupSpriteShape();
 
         //Make sure to turn all of the circles other children off before testing this one
         //You can do that by selecting them and clicking the checkmaerk, though I'm sure you know that
-        //ConnectSpringJoints();
+        ConnectSpringJoints();
         
         UpdateVertices();
     }
