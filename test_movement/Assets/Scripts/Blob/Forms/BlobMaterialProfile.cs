@@ -21,7 +21,7 @@ namespace BlobGame.Player.Forms
 
         [Header("Presentation")]
         [SerializeField] private AnimatorOverrideController animationController;
-        [SerializeField] private Color spriteTint = Color.black;
+        [SerializeField] private Color spriteTint = Color.black; 
         [SerializeField, Min(0f)] private float transformFadeOutDuration = 0.25f;
         [SerializeField, Min(0f)] private float transformFadeInDuration = 0.25f;
 
