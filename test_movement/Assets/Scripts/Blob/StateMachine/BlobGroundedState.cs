@@ -6,7 +6,13 @@ namespace BlobGame.Player.StateMachine
         {
         }
 
-        protected BlobState GetMovementTransition()
+        /// <summary>
+        /// Evaluates high-priority transitions shared by all grounded substates.
+        /// The check order defines transition priority: leaving the ground before
+        /// jumping. A null result means no shared transition was requested, so the
+        /// concrete state should continue evaluating its own Tick logic.
+        /// </summary>
+        protected BlobState TickGrounded()
         {
             if (!Blob.Sensors.IsGrounded)
                 return Blob.FallState;

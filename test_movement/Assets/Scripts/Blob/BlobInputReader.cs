@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 namespace BlobGame.Player
 {
     /// <summary>
-    /// Converts Unity Input System actions into player movement and jump intent.
+    /// Converts Unity Input System actions into player movement, jump, and sprint intent.
     /// Falls back to direct keyboard input when no InputActionAsset is assigned.
     /// </summary>
     public sealed class BlobInputReader : MonoBehaviour
@@ -13,10 +13,12 @@ namespace BlobGame.Player
         [SerializeField] private string actionMapName = "Player";
         [SerializeField] private string moveActionName = "Move";
         [SerializeField] private string jumpActionName = "Jump";
+        [SerializeField] private string sprintActionName = "Sprint";
 
         private InputActionMap playerMap;
         private InputAction moveAction;
         private InputAction jumpAction;
+        private InputAction sprintAction;
 
         /// <summary>
         /// Horizontal movement input in the range -1 to 1.
@@ -69,6 +71,34 @@ namespace BlobGame.Player
             }
         }
 
+        /// <summary>
+        /// True only on the frame when the sprint action is pressed.
+        /// </summary>
+        public bool SprintPressed
+        {
+            get
+            {
+                if (sprintAction != null)
+                    return sprintAction.WasPressedThisFrame();
+
+                return Keyboard.current != null && Keyboard.current.leftShiftKey.wasPressedThisFrame;
+            }
+        }
+
+        /// <summary>
+        /// True while the sprint action remains held.
+        /// </summary>
+        public bool SprintHeld
+        {
+            get
+            {
+                if (sprintAction != null)
+                    return sprintAction.IsPressed();
+
+                return Keyboard.current != null && Keyboard.current.leftShiftKey.isPressed;
+            }
+        }
+
         private void OnEnable()
         {
             ResolveActions();
@@ -89,6 +119,7 @@ namespace BlobGame.Player
             playerMap = inputActions.FindActionMap(actionMapName, false);
             moveAction = playerMap?.FindAction(moveActionName, false);
             jumpAction = playerMap?.FindAction(jumpActionName, false);
+            sprintAction = playerMap?.FindAction(sprintActionName, false);
         }
     }
 }

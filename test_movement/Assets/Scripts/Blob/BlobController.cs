@@ -20,6 +20,14 @@ namespace BlobGame.Player
         [Tooltip("Horizontal input values below this threshold are treated as zero.")]
         [SerializeField, Min(0f)] private float inputDeadZone = 0.05f;
 
+        [Header("Sprint")]
+        [Tooltip("Horizontal speed during the initial sprint burst.")]
+        [SerializeField, Min(0f)] private float sprintBurstSpeed = 10f;
+        [Tooltip("Duration of the initial sprint burst. Burst distance is speed multiplied by this duration.")]
+        [SerializeField, Min(0f)] private float sprintBurstDuration = 0.18f;
+        [Tooltip("Horizontal speed after the initial burst while sprint remains held.")]
+        [SerializeField, Min(0f)] private float sustainedSprintSpeed = 8f;
+
         [Header("Jump")]
         [Tooltip("Gameplay weight used to evaluate the jump-speed curve.")]
         [SerializeField, Min(0f)] private float currentWeight = 3f;
@@ -51,14 +59,19 @@ namespace BlobGame.Player
         public BlobMoveState MoveState { get; private set; }
         public BlobJumpState JumpState { get; private set; }
         public BlobFallState FallState { get; private set; }
+        public BlobSprintState SprintState { get; private set; }
 
         public float MoveSpeed => moveSpeed;
         public float AirMoveSpeed => moveSpeed * airControl;
+        public float SprintBurstSpeed => sprintBurstSpeed;
+        public float SprintBurstDuration => sprintBurstDuration;
+        public float SustainedSprintSpeed => sustainedSprintSpeed;
         public float CurrentWeight => currentWeight;
         public float RiseGravityScale => riseGravityScale;
         public float ReleasedRiseGravityScale => releasedRiseGravityScale;
         public float FallGravityScale => fallGravityScale;
         public bool HasMoveInput => Mathf.Abs(Input.MoveX) > inputDeadZone;
+        public float FacingDirection { get; private set; } = 1f;
 
         /// <summary>
         /// Name of the active locomotion state, exposed for debugging.
@@ -78,6 +91,7 @@ namespace BlobGame.Player
             MoveState = new BlobMoveState(this);
             JumpState = new BlobJumpState(this);
             FallState = new BlobFallState(this);
+            SprintState = new BlobSprintState(this);
         }
 
         private void Start()
@@ -90,6 +104,12 @@ namespace BlobGame.Player
         {
             // Evaluate frame-based input and state transitions once per rendered frame.
             Sensors.Refresh();
+
+            // Normal locomotion follows the latest movement input. Sprint updates
+            // facing itself because its initial burst direction must stay locked.
+            if (stateMachine.CurrentState != SprintState && HasMoveInput)
+                SetFacingDirection(Input.MoveX);
+
             stateMachine.Tick(Time.deltaTime);
         }
 
@@ -115,6 +135,12 @@ namespace BlobGame.Player
         public void ApplyAirMovement()
         {
             SetHorizontalVelocity(Input.MoveX * AirMoveSpeed);
+        }
+
+        public void SetFacingDirection(float horizontalDirection)
+        {
+            if (Mathf.Abs(horizontalDirection) > inputDeadZone)
+                FacingDirection = Mathf.Sign(horizontalDirection);
         }
 
         #endregion
