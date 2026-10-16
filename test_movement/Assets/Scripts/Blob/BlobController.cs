@@ -108,6 +108,8 @@ namespace BlobGame.Player
             Sensors.Refresh();
             if (Input.CycleMaterialPressed)
                 Materials.RequestNextMaterial();
+            if (HasMoveInput)
+                Animation.SetFacing(Input.MoveX);
             stateMachine.Tick(Time.deltaTime);
         }
 

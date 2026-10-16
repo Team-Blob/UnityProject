@@ -59,6 +59,19 @@ namespace BlobGame.Player.Animation
             currentAnimation = animationId;
         }
 
+        /// <summary>
+        /// Faces the rendered Blob toward the horizontal input direction.
+        /// A zero direction preserves the last facing direction.
+        /// </summary>
+        public void SetFacing(float horizontalDirection)
+        {
+            if (Mathf.Approximately(horizontalDirection, 0f))
+                return;
+
+            CacheComponents();
+            spriteRenderer.flipX = horizontalDirection < 0f;
+        }
+
         private void CacheComponents()
         {
             if (animator == null)
