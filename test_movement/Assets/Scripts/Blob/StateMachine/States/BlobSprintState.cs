@@ -21,6 +21,8 @@ namespace BlobGame.Player.StateMachine.States
         private float direction;
         private float burstElapsed;
 
+        public bool IsBurstPhase => phase == SprintPhase.Burst;
+
         public BlobSprintState(BlobController blob) : base(blob)
         {
         }

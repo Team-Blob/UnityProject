@@ -59,6 +59,7 @@ namespace BlobGame.Player
         public Rigidbody2D Body { get; private set; }
         public BlobInputReader Input { get; private set; }
         public BlobSensors Sensors { get; private set; }
+        public BlobAnimationController Animation { get; private set; }
         public BlobPowerUpManager PowerUps { get; private set; }
 
         public BlobIdleState IdleState { get; private set; }
@@ -93,6 +94,7 @@ namespace BlobGame.Player
         /// Name of the active locomotion state, exposed for debugging.
         /// </summary>
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name ?? "None";
+        public BlobState CurrentState => stateMachine?.CurrentState;
 
         private void Awake()
         {
@@ -100,6 +102,7 @@ namespace BlobGame.Player
             Input = GetComponent<BlobInputReader>();
             Sensors = GetComponent<BlobSensors>();
             PowerUps = GetComponent<BlobPowerUpManager>();
+            Animation = GetComponent<BlobAnimationController>();
 
             stateMachine = new BlobStateMachine();
 
@@ -115,6 +118,7 @@ namespace BlobGame.Player
         {
             Sensors.Refresh();
             stateMachine.Initialize(Sensors.IsGrounded ? IdleState : FallState);
+            Animation?.Initialize(this);
         }
 
         private void Update()
@@ -128,6 +132,7 @@ namespace BlobGame.Player
                 SetFacingDirection(Input.MoveX);
 
             stateMachine.Tick(Time.deltaTime);
+            Animation?.TickVisuals();
         }
 
         private void FixedUpdate()
