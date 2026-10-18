@@ -23,7 +23,8 @@ namespace BlobGame.Player.StateMachine.States
 
         public override void FixedTick(float fixedDeltaTime)
         {
-            Blob.StopHorizontalMovement();
+            if (!Blob.IsGrappling)
+                Blob.StopHorizontalMovement();
         }
     }
 }

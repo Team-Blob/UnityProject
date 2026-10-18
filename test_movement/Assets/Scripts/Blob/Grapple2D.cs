@@ -17,20 +17,15 @@ namespace BlobGame.Player
         [SerializeField, Min(0.1f)] private float maxDistance = 12f;
         [SerializeField] private LayerMask grappleMask = ~0;
 
-        [Header("Pull")]
-        [SerializeField, Min(0f)] private float frequency = 4f;
-        [SerializeField, Range(0f, 1f)] private float dampingRatio = 0.8f;
-        [SerializeField, Min(0f)] private float maxForce = 1000f;
-
         [Header("Visual")]
         [SerializeField] private LineRenderer rope;
 
         private Rigidbody2D body;
         private BlobInputReader input;
-        private TargetJoint2D pullJoint;
+        private DistanceJoint2D ropeJoint;
         private Vector2 grapplePoint;
 
-        public bool IsAttached => pullJoint != null && pullJoint.enabled;
+        public bool IsAttached => ropeJoint != null && ropeJoint.enabled;
 
         private void Awake()
         {
@@ -39,15 +34,14 @@ namespace BlobGame.Player
             if (targetCamera == null)
                 targetCamera = Camera.main;
 
-            pullJoint = GetComponent<TargetJoint2D>();
-            if (pullJoint == null)
-                pullJoint = gameObject.AddComponent<TargetJoint2D>();
+            ropeJoint = GetComponent<DistanceJoint2D>();
+            if (ropeJoint == null)
+                ropeJoint = gameObject.AddComponent<DistanceJoint2D>();
 
-            pullJoint.enabled = false;
-            pullJoint.autoConfigureTarget = false;
-            pullJoint.frequency = frequency;
-            pullJoint.dampingRatio = dampingRatio;
-            pullJoint.maxForce = maxForce;
+            ropeJoint.enabled = false;
+            ropeJoint.autoConfigureDistance = false;
+            ropeJoint.autoConfigureConnectedAnchor = false;
+            ropeJoint.maxDistanceOnly = true;
             SetRopeVisible(false);
         }
 
@@ -92,11 +86,12 @@ namespace BlobGame.Player
                     continue;
 
                 grapplePoint = hit.point;
-                pullJoint.target = grapplePoint;
-                pullJoint.frequency = frequency;
-                pullJoint.dampingRatio = dampingRatio;
-                pullJoint.maxForce = maxForce;
-                pullJoint.enabled = true;
+                ropeJoint.connectedBody = null;
+                ropeJoint.anchor = transform.InverseTransformPoint(body.worldCenterOfMass);
+                ropeJoint.connectedAnchor = grapplePoint;
+                ropeJoint.distance = Vector2.Distance(body.worldCenterOfMass, grapplePoint);
+                ropeJoint.maxDistanceOnly = true;
+                ropeJoint.enabled = true;
                 SetRopeVisible(true);
                 UpdateRope();
                 return;
@@ -105,8 +100,8 @@ namespace BlobGame.Player
 
         private void Release()
         {
-            if (pullJoint != null)
-                pullJoint.enabled = false;
+            if (ropeJoint != null)
+                ropeJoint.enabled = false;
 
             SetRopeVisible(false);
         }

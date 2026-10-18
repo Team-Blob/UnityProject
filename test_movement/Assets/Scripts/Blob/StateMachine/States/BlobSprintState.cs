@@ -71,6 +71,9 @@ namespace BlobGame.Player.StateMachine.States
 
         public override void FixedTick(float fixedDeltaTime)
         {
+            if (Blob.IsGrappling)
+                return;
+
             float speed = phase == SprintPhase.Burst
                 ? Blob.SprintBurstSpeed
                 : Blob.SustainedSprintSpeed;

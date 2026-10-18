@@ -40,7 +40,8 @@ namespace BlobGame.Player.StateMachine.States
                 jumpCutRequested = false;
             }
 
-            Blob.ApplyAirMovement();
+            if (!Blob.IsGrappling)
+                Blob.ApplyAirMovement();
         }
     }
 }

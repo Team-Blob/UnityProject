@@ -21,7 +21,9 @@ namespace BlobGame.Player.StateMachine.States
 
         public override void FixedTick(float fixedDeltaTime)
         {
-            Blob.ApplyAirMovement();
+            if (!Blob.IsGrappling)
+                Blob.ApplyAirMovement();
+
             Blob.ClampFallSpeed();
         }
     }

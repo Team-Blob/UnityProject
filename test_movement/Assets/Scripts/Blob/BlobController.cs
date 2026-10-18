@@ -51,6 +51,7 @@ namespace BlobGame.Player
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
         private BlobStateMachine stateMachine;
+        private Grapple2D grapple;
         private float movementSpeedMultiplier = 1f;
         private float airControlMultiplier = 1f;
         private float jumpSpeedMultiplier = 1f;
@@ -77,6 +78,16 @@ namespace BlobGame.Player
         public float FallGravityScale => fallGravityScale;
         public bool HasMoveInput => Mathf.Abs(Input.MoveX) > inputDeadZone;
         public float FacingDirection { get; private set; } = 1f;
+        public bool IsGrappling
+        {
+            get
+            {
+                if (grapple == null)
+                    grapple = GetComponent<Grapple2D>();
+
+                return grapple != null && grapple.IsAttached;
+            }
+        }
 
         /// <summary>
         /// Name of the active locomotion state, exposed for debugging.
