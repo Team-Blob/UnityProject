@@ -14,11 +14,13 @@ namespace BlobGame.Player
         [SerializeField] private string moveActionName = "Move";
         [SerializeField] private string jumpActionName = "Jump";
         [SerializeField] private string sprintActionName = "Sprint";
+        [SerializeField] private string grappleActionName = "Grapple";
 
         private InputActionMap playerMap;
         private InputAction moveAction;
         private InputAction jumpAction;
         private InputAction sprintAction;
+        private InputAction grappleAction;
 
         /// <summary>
         /// Horizontal movement input in the range -1 to 1.
@@ -99,6 +101,18 @@ namespace BlobGame.Player
             }
         }
 
+        /// <summary>True only on the frame when the grapple action is pressed.</summary>
+        public bool GrapplePressed
+        {
+            get
+            {
+                if (grappleAction != null)
+                    return grappleAction.WasPressedThisFrame();
+
+                return Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame;
+            }
+        }
+
         private void OnEnable()
         {
             ResolveActions();
@@ -120,6 +134,7 @@ namespace BlobGame.Player
             moveAction = playerMap?.FindAction(moveActionName, false);
             jumpAction = playerMap?.FindAction(jumpActionName, false);
             sprintAction = playerMap?.FindAction(sprintActionName, false);
+            grappleAction = playerMap?.FindAction(grappleActionName, false);
         }
     }
 }
