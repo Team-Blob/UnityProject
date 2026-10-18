@@ -1,5 +1,6 @@
 using BlobGame.Player.StateMachine;
 using BlobGame.Player.StateMachine.States;
+using BlobGame.Player.PowerUps;
 using UnityEngine;
 
 namespace BlobGame.Player
@@ -9,7 +10,7 @@ namespace BlobGame.Player
     /// and Rigidbody2D movement operations.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
-    [RequireComponent(typeof(BlobInputReader), typeof(BlobSensors))]
+    [RequireComponent(typeof(BlobInputReader), typeof(BlobSensors), typeof(BlobPowerUpManager))]
     public sealed class BlobController : MonoBehaviour
     {
         [Header("Movement")]
@@ -50,10 +51,14 @@ namespace BlobGame.Player
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
         private BlobStateMachine stateMachine;
+        private float movementSpeedMultiplier = 1f;
+        private float airControlMultiplier = 1f;
+        private float jumpSpeedMultiplier = 1f;
 
         public Rigidbody2D Body { get; private set; }
         public BlobInputReader Input { get; private set; }
         public BlobSensors Sensors { get; private set; }
+        public BlobPowerUpManager PowerUps { get; private set; }
 
         public BlobIdleState IdleState { get; private set; }
         public BlobMoveState MoveState { get; private set; }
@@ -61,8 +66,8 @@ namespace BlobGame.Player
         public BlobFallState FallState { get; private set; }
         public BlobSprintState SprintState { get; private set; }
 
-        public float MoveSpeed => moveSpeed;
-        public float AirMoveSpeed => moveSpeed * airControl;
+        public float MoveSpeed => moveSpeed * movementSpeedMultiplier;
+        public float AirMoveSpeed => MoveSpeed * airControl * airControlMultiplier;
         public float SprintBurstSpeed => sprintBurstSpeed;
         public float SprintBurstDuration => sprintBurstDuration;
         public float SustainedSprintSpeed => sustainedSprintSpeed;
@@ -83,6 +88,7 @@ namespace BlobGame.Player
             Body = GetComponent<Rigidbody2D>();
             Input = GetComponent<BlobInputReader>();
             Sensors = GetComponent<BlobSensors>();
+            PowerUps = GetComponent<BlobPowerUpManager>();
 
             stateMachine = new BlobStateMachine();
 
@@ -143,13 +149,21 @@ namespace BlobGame.Player
                 FacingDirection = Mathf.Sign(horizontalDirection);
         }
 
+        /// <summary>Applies permanent run-time multipliers from collected upgrades.</summary>
+        public void ApplyMovementUpgrade(float moveMultiplier, float airControlFactor, float jumpMultiplier)
+        {
+            movementSpeedMultiplier *= Mathf.Max(0f, moveMultiplier);
+            airControlMultiplier *= Mathf.Max(0f, airControlFactor);
+            jumpSpeedMultiplier *= Mathf.Max(0f, jumpMultiplier);
+        }
+
         #endregion
 
         #region Jump and Gravity Operations
 
         public float GetCurrentJumpSpeed()
         {
-            return Mathf.Max(0f, jumpSpeedByWeight.Evaluate(currentWeight));
+            return Mathf.Max(0f, jumpSpeedByWeight.Evaluate(currentWeight) * jumpSpeedMultiplier);
         }
 
         public void SetVerticalVelocity(float speed)
