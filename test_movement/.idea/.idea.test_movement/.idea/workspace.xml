@@ -12,6 +12,30 @@
   <component name="ChangeListManager">
     <list default="true" id="3f41f758-8171-43c1-946f-d7caac8df6da" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.test_movement/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.test_movement/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/First_Level.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/First_Level.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobAnimationController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobAnimationController.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobController.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobInputReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobInputReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobSensors.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/BlobSensors.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Grapple2D.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Grapple2D.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/UnlockGrappleEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/UnlockGrappleEffect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/SoftBody.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/SoftBody.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/StateMachine/States/BlobFallState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/StateMachine/States/BlobFallState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/StateMachine/States/BlobJumpState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/StateMachine/States/BlobJumpState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/StateMachine/States/BlobMoveState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/StateMachine/States/BlobMoveState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Powerups.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Powerups/Grapple.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Powerups/Grapple.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Powerups/UnlockGrapple.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Powerups/UnlockGrapple.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +43,16 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/987aa4221989419a947e2c4ff5d6829c212c00/20/d748a812/AnimationCurve.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Grapple.asset" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -45,13 +78,14 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;unity__6000__3__migration&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;debug&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;rider.unittesting.toolwindow.stripe.button.shown&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -115,7 +149,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="GRAPH_OPTIONS">
+                <list>
+                  <option value="FirstParent" />
+                </list>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

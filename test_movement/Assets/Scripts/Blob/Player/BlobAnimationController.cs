@@ -26,6 +26,7 @@ namespace BlobGame.Player
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         [Header("Playback")]
+        [SerializeField] private BlobAnimationConfig config;
         [Tooltip("Playback multiplier used by the normal Move clip during sustained sprint.")]
         [SerializeField, Min(1f)] private float sustainedSprintAnimationSpeed = 1.65f;
 
@@ -190,7 +191,7 @@ namespace BlobGame.Player
                 if (blob.SprintState.IsBurstPhase)
                     Play(SprintBurst);
                 else
-                    Play(Move, sustainedSprintAnimationSpeed);
+                    Play(Move, config != null ? config.SustainedSprintAnimationSpeed : sustainedSprintAnimationSpeed);
             }
         }
 

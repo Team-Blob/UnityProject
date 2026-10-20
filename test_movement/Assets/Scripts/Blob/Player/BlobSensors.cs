@@ -9,6 +9,7 @@ namespace BlobGame.Player
     [RequireComponent(typeof(Collider2D))]
     public sealed class BlobSensors : MonoBehaviour
     {
+        [SerializeField] private BlobSensorConfig config;
         [Tooltip("Thickness of the overlap box placed below the player.")]
         [SerializeField, Min(0.01f)] private float groundCheckDepth = 0.12f;
         [Tooltip("Ground-check width as a fraction of the player collider width.")]
@@ -19,6 +20,8 @@ namespace BlobGame.Player
         private readonly Collider2D[] groundHits = new Collider2D[8];
         private Collider2D bodyCollider;
         private ContactFilter2D groundFilter;
+        private float GroundCheckDepth => config != null ? config.GroundCheckDepth : groundCheckDepth;
+        private float GroundCheckWidth => config != null ? config.GroundCheckWidth : groundCheckWidth;
 
         /// <summary>
         /// Whether a valid non-trigger ground collider was detected below the player.
@@ -31,7 +34,7 @@ namespace BlobGame.Player
             groundFilter = new ContactFilter2D
             {
                 useLayerMask = true,
-                layerMask = groundMask,
+                layerMask = config != null ? config.GroundMask : groundMask,
                 useTriggers = false
             };
         }
@@ -50,8 +53,8 @@ namespace BlobGame.Player
             Bounds bounds = bodyCollider.bounds;
 
             // Place a thin overlap box slightly below the collider's lower bound.
-            Vector2 checkSize = new(bounds.size.x * groundCheckWidth, groundCheckDepth);
-            Vector2 checkCenter = new(bounds.center.x, bounds.min.y - groundCheckDepth * 0.45f);
+            Vector2 checkSize = new(bounds.size.x * GroundCheckWidth, GroundCheckDepth);
+            Vector2 checkCenter = new(bounds.center.x, bounds.min.y - GroundCheckDepth * 0.45f);
             int hitCount = Physics2D.OverlapBox(checkCenter, checkSize, 0f, groundFilter, groundHits);
 
             IsGrounded = false;
@@ -79,8 +82,8 @@ namespace BlobGame.Player
                 return;
 
             Bounds bounds = target.bounds;
-            Vector3 center = new(bounds.center.x, bounds.min.y - groundCheckDepth * 0.45f, 0f);
-            Vector3 size = new(bounds.size.x * groundCheckWidth, groundCheckDepth, 0.01f);
+            Vector3 center = new(bounds.center.x, bounds.min.y - GroundCheckDepth * 0.45f, 0f);
+            Vector3 size = new(bounds.size.x * GroundCheckWidth, GroundCheckDepth, 0.01f);
             Gizmos.color = IsGrounded ? Color.green : Color.red;
             Gizmos.DrawWireCube(center, size);
         }
