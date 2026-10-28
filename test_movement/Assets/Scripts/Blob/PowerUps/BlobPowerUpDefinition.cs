@@ -12,6 +12,7 @@ namespace BlobGame.Player.PowerUps
         [SerializeField] private string displayName;
         [TextArea, SerializeField] private string description;
         [SerializeField] private List<BlobPowerUpEffect> effects = new();
+        
 
         public string Id => id;
         public string DisplayName => displayName;

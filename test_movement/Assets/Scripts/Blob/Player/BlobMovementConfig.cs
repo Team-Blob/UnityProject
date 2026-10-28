@@ -31,6 +31,7 @@ namespace BlobGame.Player
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
         [Header("Abilities")]
+        
         [SerializeField] private bool allowsGrapple;
 
         [Header("Presentation")]
