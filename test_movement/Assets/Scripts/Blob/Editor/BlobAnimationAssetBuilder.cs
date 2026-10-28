@@ -5,7 +5,6 @@ using System.Linq;
 using BlobGame.Player;
 using UnityEditor;
 using UnityEditor.Animations;
-using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 namespace BlobGame.Player.Editor
@@ -125,38 +124,25 @@ namespace BlobGame.Player.Editor
 
                 // A Sprite importer is already configured, even if its current
                 // slicing yields no sprites. Never alter existing settings or
-                // sub-Sprite IDs; re-slicing is an explicit artist operation.
+                // Sprite IDs; mode conversion is a separate migration operation.
                 if (importer.textureType == TextureImporterType.Sprite)
                     continue;
 
                 importer.textureType = TextureImporterType.Sprite;
-                importer.spriteImportMode = SpriteImportMode.Multiple;
+                importer.spriteImportMode = SpriteImportMode.Single;
                 importer.spritePixelsPerUnit = 100f;
                 importer.mipmapEnabled = false;
                 importer.alphaIsTransparency = true;
                 importer.filterMode = FilterMode.Bilinear;
-                importer.GetSourceTextureWidthAndHeight(out int width, out int height);
 
-                var factories = new SpriteDataProviderFactories();
-                factories.Init();
-                ISpriteEditorDataProvider provider = factories.GetSpriteEditorDataProviderFromObject(importer);
-                if (provider == null)
-                    throw new InvalidOperationException($"No sprite editor data provider for {path}.");
-                provider.InitSpriteEditorDataProvider();
-
-                // New PNG defaults: one full-image sprite, PPU 100, pivot
-                // (0.5, 0.4). A 256px source remains a full 256px frame.
-                var spriteRect = new SpriteRect
-                {
-                    spriteID = GUID.Generate(),
-                    name = Path.GetFileNameWithoutExtension(path),
-                    rect = new Rect(0f, 0f, width, height),
-                    alignment = SpriteAlignment.Custom,
-                    pivot = new Vector2(0.5f, 0.4f)
-                };
-
-                provider.SetSpriteRects(new[] { spriteRect });
-                provider.Apply();
+                // One PNG is one complete animation frame. New imports use
+                // Single mode, PPU 100, and normalized custom pivot (0.5, 0.4).
+                // Read/modify/write settings so unrelated importer values stay intact.
+                var settings = new TextureImporterSettings();
+                importer.ReadTextureSettings(settings);
+                settings.spriteAlignment = (int)SpriteAlignment.Custom;
+                settings.spritePivot = new Vector2(0.5f, 0.4f);
+                importer.SetTextureSettings(settings);
                 importer.SaveAndReimport();
             }
         }
