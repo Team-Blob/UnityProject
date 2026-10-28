@@ -13,28 +13,45 @@ using UnityEngine.SceneManagement;
 namespace BlobGame.Player.Editor
 {
     /// <summary>
-    /// Imports the prototype animation frames with consistent sprite settings,
-    /// builds the clips/controller, and installs them on TestScene_Helen's Player.
+    /// Imports Blob animation frames, builds the shared state-name controller,
+    /// creates Default/Grass overrides and profiles, and wires the test player.
     /// </summary>
     public static class BlobAnimationAssetBuilder
     {
         private const string Root = "Assets/Art/Prototype/AnimationSPRITES";
         private const string ClipsFolder = Root + "/Clips";
+        private const string OverridesFolder = Root + "/Overrides";
         private const string ControllerPath = Root + "/DefaultBlobAnimatorController.controller";
+        private const string DefaultOverridePath = OverridesFolder + "/DefaultBlobAnimatorOverride.overrideController";
+        private const string GrassOverridePath = OverridesFolder + "/GrassBlobAnimatorOverride.overrideController";
+        private const string AnimationProfilesFolder = "Assets/Scripts/Blob/Player/AnimationControl/Profiles";
+        private const string DefaultAnimationProfilePath = AnimationProfilesFolder + "/DefaultAnimationProfile.asset";
+        private const string GrassAnimationProfilePath = AnimationProfilesFolder + "/GrassAnimationProfile.asset";
+        private const string DefaultMovementPath = "Assets/Scripts/Blob/Player/MovementsProfiles/DefaultMovement.asset";
+        private const string GrassMovementPath = "Assets/Scripts/Blob/Player/MovementsProfiles/GrassMovement.asset";
         private const string ScenePath = "Assets/Scenes/TestScene_Helen.unity";
-        private static readonly ClipDefinition[] Clips =
+
+        private static readonly ClipDefinition[] BaseClips =
         {
-            new("Idle", "Idle", 12f, true),
-            new("Move", "Move", 12f, true),
-            new("JumpPrepare", "JumpPrepare", 36f, false),
-            new("JumpRise", "JumpRise", 12f, false),
-            new("JumpApex", "JumpApex", 24f, false),
-            new("Fall", "Fall", 12f, true),
-            new("Land", "Land", 24f, false),
-            new("SprintBurst", "SprintBurst", 12f, true)
+            new("Idle", "Idle", "Idle", 12f, true),
+            new("Move", "Move", "Move", 12f, true),
+            new("JumpPrepare", "JumpPrepare", "JumpPrepare", 36f, false),
+            new("JumpRise", "JumpRise", "JumpRise", 12f, false),
+            new("JumpApex", "JumpApex", "JumpApex", 24f, false),
+            new("Fall", "Fall", "Fall", 12f, true),
+            new("Land", "Land", "Land", 24f, false),
+            new("SprintBurst", "SprintBurst", "SprintBurst", 12f, true),
+            new("TransformOut", "DefaultTransformOut", "Transformations/Default/TransformOut", 12f, false),
+            new("TransformIn", "DefaultTransformIn", "Transformations/Default/TransformIn", 12f, false)
         };
 
-        [MenuItem("Tools/Blob/Rebuild Default Animations")]
+        private static readonly ClipDefinition GrassTransformOut =
+            new("TransformOut", "GrassTransformOut", "Transformations/Grass/TransformOut", 12f, false);
+
+        private static readonly ClipDefinition GrassTransformIn =
+            new("TransformIn", "GrassTransformIn", "Transformations/Grass/TransformIn", 12f, false);
+
+        [MenuItem("Tools/Blob/Rebuild Default And Material Animations")]
         public static void BuildFromMenu()
         {
             BuildAll(true);
@@ -45,19 +62,46 @@ namespace BlobGame.Player.Editor
             try
             {
                 EnsureFolder(ClipsFolder);
+                EnsureFolder(OverridesFolder);
+                EnsureFolder(AnimationProfilesFolder);
                 ConfigureAllSprites();
 
-                var createdClips = new Dictionary<string, AnimationClip>();
-                foreach (ClipDefinition definition in Clips)
-                    createdClips.Add(definition.StateName, BuildClip(definition));
+                var baseClips = new Dictionary<string, AnimationClip>();
+                foreach (ClipDefinition definition in BaseClips)
+                    baseClips.Add(definition.StateName, BuildClip(definition));
 
-                AnimatorController controller = BuildController(createdClips);
-                ConfigurePlayer(controller, GetFirstSprite(Root + "/Idle"));
+                AnimationClip grassTransformOut = BuildClip(GrassTransformOut);
+                AnimationClip grassTransformIn = BuildClip(GrassTransformIn);
+                AnimatorController baseController = BuildController(baseClips);
+
+                AnimatorOverrideController defaultOverride = BuildOverride(
+                    DefaultOverridePath,
+                    baseController,
+                    new Dictionary<AnimationClip, AnimationClip>());
+
+                AnimatorOverrideController grassOverride = BuildOverride(
+                    GrassOverridePath,
+                    baseController,
+                    new Dictionary<AnimationClip, AnimationClip>
+                    {
+                        { baseClips["TransformOut"], grassTransformOut },
+                        { baseClips["TransformIn"], grassTransformIn }
+                    });
+
+                BlobAnimationProfile defaultProfile = BuildAnimationProfile(
+                    DefaultAnimationProfilePath, defaultOverride);
+                BlobAnimationProfile grassProfile = BuildAnimationProfile(
+                    GrassAnimationProfilePath, grassOverride);
+
+                AssignAnimationProfile(DefaultMovementPath, defaultProfile);
+                AssignAnimationProfile(GrassMovementPath, grassProfile);
+                ConfigurePlayer(defaultOverride, GetFirstSprite(Root + "/Idle"));
+
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
                 if (logCompletion)
-                    Debug.Log("Blob default animation assets rebuilt successfully.");
+                    Debug.Log("Blob Default/Grass animation profiles rebuilt successfully.");
             }
             catch (Exception exception)
             {
@@ -82,7 +126,6 @@ namespace BlobGame.Player.Editor
                 importer.mipmapEnabled = false;
                 importer.alphaIsTransparency = true;
                 importer.filterMode = FilterMode.Bilinear;
-
                 importer.GetSourceTextureWidthAndHeight(out int width, out int height);
 
                 var factories = new SpriteDataProviderFactories();
@@ -111,13 +154,13 @@ namespace BlobGame.Player.Editor
         {
             List<Sprite> frames = LoadSprites(Root + "/" + definition.SourceFolder);
             if (frames.Count == 0)
-                throw new InvalidOperationException($"No sprite frames found for {definition.StateName}.");
+                throw new InvalidOperationException($"No sprite frames found for {definition.ClipName}.");
 
-            string clipPath = $"{ClipsFolder}/{definition.StateName}.anim";
+            string clipPath = $"{ClipsFolder}/{definition.ClipName}.anim";
             AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(clipPath);
             if (clip == null)
             {
-                clip = new AnimationClip { name = definition.StateName };
+                clip = new AnimationClip { name = definition.ClipName };
                 AssetDatabase.CreateAsset(clip, clipPath);
             }
 
@@ -164,12 +207,11 @@ namespace BlobGame.Player.Editor
                 stateMachine.RemoveState(childState.state);
 
             AnimatorState idleState = null;
-            foreach (ClipDefinition definition in Clips)
+            foreach (ClipDefinition definition in BaseClips)
             {
                 AnimatorState state = stateMachine.AddState(definition.StateName);
                 state.motion = clips[definition.StateName];
                 state.writeDefaultValues = true;
-
                 if (definition.StateName == "Idle")
                     idleState = state;
             }
@@ -177,6 +219,70 @@ namespace BlobGame.Player.Editor
             stateMachine.defaultState = idleState;
             EditorUtility.SetDirty(controller);
             return controller;
+        }
+
+        private static AnimatorOverrideController BuildOverride(
+            string path,
+            AnimatorController baseController,
+            IReadOnlyDictionary<AnimationClip, AnimationClip> replacements)
+        {
+            AnimatorOverrideController controller =
+                AssetDatabase.LoadAssetAtPath<AnimatorOverrideController>(path);
+
+            if (controller == null)
+            {
+                controller = new AnimatorOverrideController(baseController);
+                AssetDatabase.CreateAsset(controller, path);
+            }
+            else
+            {
+                controller.runtimeAnimatorController = baseController;
+            }
+
+            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+            controller.GetOverrides(overrides);
+            for (int i = 0; i < overrides.Count; i++)
+            {
+                AnimationClip original = overrides[i].Key;
+                AnimationClip replacement = replacements.TryGetValue(original, out AnimationClip configured)
+                    ? configured
+                    : original;
+                overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(original, replacement);
+            }
+
+            controller.ApplyOverrides(overrides);
+            EditorUtility.SetDirty(controller);
+            return controller;
+        }
+
+        private static BlobAnimationProfile BuildAnimationProfile(
+            string path,
+            RuntimeAnimatorController controller)
+        {
+            BlobAnimationProfile profile = AssetDatabase.LoadAssetAtPath<BlobAnimationProfile>(path);
+            if (profile == null)
+            {
+                profile = ScriptableObject.CreateInstance<BlobAnimationProfile>();
+                AssetDatabase.CreateAsset(profile, path);
+            }
+
+            var serializedProfile = new SerializedObject(profile);
+            serializedProfile.FindProperty("animatorController").objectReferenceValue = controller;
+            serializedProfile.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(profile);
+            return profile;
+        }
+
+        private static void AssignAnimationProfile(string movementPath, BlobAnimationProfile profile)
+        {
+            BlobMovementConfig movement = AssetDatabase.LoadAssetAtPath<BlobMovementConfig>(movementPath);
+            if (movement == null)
+                throw new InvalidOperationException($"Movement profile was not found at {movementPath}.");
+
+            var serializedMovement = new SerializedObject(movement);
+            serializedMovement.FindProperty("animationProfile").objectReferenceValue = profile;
+            serializedMovement.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(movement);
         }
 
         private static void ConfigurePlayer(RuntimeAnimatorController controller, Sprite idleFirstFrame)
@@ -257,15 +363,22 @@ namespace BlobGame.Player.Editor
 
         private readonly struct ClipDefinition
         {
-            public ClipDefinition(string stateName, string sourceFolder, float frameRate, bool loop)
+            public ClipDefinition(
+                string stateName,
+                string clipName,
+                string sourceFolder,
+                float frameRate,
+                bool loop)
             {
                 StateName = stateName;
+                ClipName = clipName;
                 SourceFolder = sourceFolder;
                 FrameRate = frameRate;
                 Loop = loop;
             }
 
             public string StateName { get; }
+            public string ClipName { get; }
             public string SourceFolder { get; }
             public float FrameRate { get; }
             public bool Loop { get; }

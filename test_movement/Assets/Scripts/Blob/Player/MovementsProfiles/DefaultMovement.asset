@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9452231264552654baddbca90aad85b7, type: 3}
-  m_Name: GrassMovement
+  m_Name: DefaultMovement
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobMovementConfig
-  moveSpeed: 10
-  airControl: 0.92
+  moveSpeed: 8
+  airControl: 0.8
   inputDeadZone: 0.05
   sprintBurstSpeed: 15
-  sprintBurstDuration: 0.36
+  sprintBurstDuration: 0.18
   sustainedSprintSpeed: 10
-  currentWeight: 1.5
+  currentWeight: 3
   jumpSpeedByWeight:
     serializedVersion: 2
     m_Curve:
@@ -75,4 +75,5 @@ MonoBehaviour:
   fallGravityScale: 7
   jumpCutMultiplier: 0.6
   maxFallSpeed: 20
-  allowsGrapple: 1
+  allowsGrapple: 0
+  animationProfile: {fileID: 11400000, guid: 27e488022bb847f4d86edec868ce0345, type: 2}

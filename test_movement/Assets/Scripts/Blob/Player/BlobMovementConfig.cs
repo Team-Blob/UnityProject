@@ -33,6 +33,10 @@ namespace BlobGame.Player
         [Header("Abilities")]
         [SerializeField] private bool allowsGrapple;
 
+        [Header("Presentation")]
+        [Tooltip("Animation set used by this material/movement profile.")]
+        [SerializeField] private BlobAnimationProfile animationProfile;
+
         public float MoveSpeed => moveSpeed;
         public float AirControl => airControl;
         public float InputDeadZone => inputDeadZone;
@@ -46,6 +50,7 @@ namespace BlobGame.Player
         public float JumpCutMultiplier => jumpCutMultiplier;
         public float MaxFallSpeed => maxFallSpeed;
         public bool AllowsGrapple => allowsGrapple;
+        public BlobAnimationProfile AnimationProfile => animationProfile;
         
 
         public float EvaluateJumpSpeed(float weight) => jumpSpeedByWeight.Evaluate(weight);

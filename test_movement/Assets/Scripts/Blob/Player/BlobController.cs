@@ -17,7 +17,6 @@ namespace BlobGame.Player
         [Tooltip("Optional shared movement tuning. When empty, the legacy values below are used.")]
         [SerializeField] private BlobMovementConfig movementConfig;
         [SerializeField] private BlobMovementProfileSet movementProfileSet;
-        [SerializeField, Min(0.05f)] private float profileCycleRepeatInterval = 0.35f;
 
        /* [Header("Movement")]
         [Tooltip("Horizontal movement speed while grounded.")]
@@ -65,7 +64,8 @@ namespace BlobGame.Player
         private float jumpSpeedMultiplier = 1f;
         private bool preserveGrappleMomentum;
         private int movementProfileIndex = -1;
-        private float profileCycleTimer;
+        private bool profileSwitchRequiresRelease;
+        private BlobMovementConfig pendingMovementConfig;
 
         public Rigidbody2D Body { get; private set; }
         public BlobInputReader Input { get; private set; }
@@ -78,6 +78,7 @@ namespace BlobGame.Player
         public BlobJumpState JumpState { get; private set; }
         public BlobFallState FallState { get; private set; }
         public BlobSprintState SprintState { get; private set; }
+        public BlobTransformState TransformState { get; private set; }
 
         private float BaseMoveSpeed => movementConfig != null ? movementConfig.MoveSpeed : 6f;
         private float AirControl => movementConfig != null ? movementConfig.AirControl : .8f;
@@ -93,17 +94,32 @@ namespace BlobGame.Player
         public float FallGravityScale => movementConfig != null ? movementConfig.FallGravityScale : 7;
         public bool CurrentProfileAllowsGrapple => movementConfig != null && movementConfig.AllowsGrapple;
         public BlobMovementConfig CurrentMovementConfig => movementConfig;
+        internal BlobMovementConfig PendingMovementConfig => pendingMovementConfig;
 
-        /// <summary>Switches this player's active tuning profile without modifying the shared asset.</summary>
+        /// <summary>
+        /// Requests a material/movement profile change. The request waits until
+        /// Idle, then the Transform state performs the visual and gameplay swap.
+        /// </summary>
         public void SetMovementConfig(BlobMovementConfig config)
         {
-            if (config != null)
-            {
-                movementConfig = config;
-                movementProfileIndex = FindProfileIndex(config);
-                if (!config.AllowsGrapple && IsGrappling)
-                    grapple.Release();
-            }
+            if (config == null || config == movementConfig || config == pendingMovementConfig)
+                return;
+
+            pendingMovementConfig = config;
+        }
+
+        internal void ApplyPendingMovementConfig()
+        {
+            BlobMovementConfig config = pendingMovementConfig;
+            if (config == null)
+                return;
+
+            movementConfig = config;
+            movementProfileIndex = FindProfileIndex(config);
+            pendingMovementConfig = null;
+
+            if (!config.AllowsGrapple && IsGrappling)
+                grapple.Release();
         }
 
         
@@ -151,6 +167,7 @@ namespace BlobGame.Player
             JumpState = new BlobJumpState(this);
             FallState = new BlobFallState(this);
             SprintState = new BlobSprintState(this);
+            TransformState = new BlobTransformState(this);
         }
 
         private void Start()
@@ -168,7 +185,8 @@ namespace BlobGame.Player
             if (preserveGrappleMomentum && Sensors.IsGrounded && stateMachine.CurrentState != JumpState)
                 preserveGrappleMomentum = false;
 
-            UpdateMovementProfileCycling(Time.deltaTime);
+            UpdateMovementProfileCycling();
+            TryStartPendingTransformation();
 
             // Normal locomotion follows the latest movement input. Sprint updates
             // facing itself because its initial burst direction must stay locked.
@@ -179,22 +197,46 @@ namespace BlobGame.Player
             Animation?.TickVisuals();
         }
 
-        private void UpdateMovementProfileCycling(float deltaTime)
+        private void UpdateMovementProfileCycling()
         {
             if (!Input.ProfileSwitchHeld)
             {
-                profileCycleTimer = 0f;
+                profileSwitchRequiresRelease = false;
                 return;
             }
 
-            if (Input.ProfileSwitchPressed || profileCycleTimer <= 0f)
+            if (profileSwitchRequiresRelease)
+                return;
+
+            // The test input is intentionally not queued: pressing it outside
+            // Idle requires a release and a new press after returning to Idle.
+            if (stateMachine.CurrentState != IdleState || pendingMovementConfig != null
+                || Animation != null && Animation.IsTransforming)
             {
-                CycleMovementProfile();
-                profileCycleTimer = profileCycleRepeatInterval;
+                if (Input.ProfileSwitchPressed)
+                    profileSwitchRequiresRelease = true;
                 return;
             }
 
-            profileCycleTimer -= deltaTime;
+            if (!Input.ProfileSwitchPressed)
+                return;
+
+            CycleMovementProfile();
+            profileSwitchRequiresRelease = true;
+        }
+
+        private void TryStartPendingTransformation()
+        {
+            if (pendingMovementConfig == null || stateMachine.CurrentState != IdleState)
+                return;
+
+            if (Animation == null)
+            {
+                ApplyPendingMovementConfig();
+                return;
+            }
+
+            stateMachine.ForceChangeState(TransformState);
         }
 
         private void CycleMovementProfile()

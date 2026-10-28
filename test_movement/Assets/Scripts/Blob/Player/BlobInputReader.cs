@@ -20,6 +20,8 @@ namespace BlobGame.Player
         private InputAction jumpAction;
         private InputAction sprintAction;
 
+        public bool GameplayInputEnabled { get; private set; } = true;
+
         /// <summary>
         /// Horizontal movement input in the range -1 to 1.
         /// </summary>
@@ -27,6 +29,9 @@ namespace BlobGame.Player
         {
             get
             {
+                if (!GameplayInputEnabled)
+                    return 0f;
+
                 if (moveAction != null)
                     return moveAction.ReadValue<Vector2>().x;
 
@@ -50,6 +55,9 @@ namespace BlobGame.Player
         {
             get
             {
+                if (!GameplayInputEnabled)
+                    return false;
+
                 if (jumpAction != null)
                     return jumpAction.WasPressedThisFrame();
 
@@ -64,6 +72,9 @@ namespace BlobGame.Player
         {
             get
             {
+                if (!GameplayInputEnabled)
+                    return false;
+
                 if (jumpAction != null)
                     return jumpAction.WasReleasedThisFrame();
 
@@ -78,6 +89,9 @@ namespace BlobGame.Player
         {
             get
             {
+                if (!GameplayInputEnabled)
+                    return false;
+
                 if (sprintAction != null)
                     return sprintAction.WasPressedThisFrame();
 
@@ -92,6 +106,9 @@ namespace BlobGame.Player
         {
             get
             {
+                if (!GameplayInputEnabled)
+                    return false;
+
                 if (sprintAction != null)
                     return sprintAction.IsPressed();
 
@@ -100,13 +117,20 @@ namespace BlobGame.Player
         }
 
         /// <summary>True while the left mouse button is held for grapple use.</summary>
-        public bool GrappleHeld => Mouse.current != null && Mouse.current.leftButton.isPressed;
+        public bool GrappleHeld => GameplayInputEnabled
+            && Mouse.current != null
+            && Mouse.current.leftButton.isPressed;
 
         /// <summary>True on the initial frame of a movement-profile cycle hold.</summary>
         public bool ProfileSwitchPressed => Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame;
 
         /// <summary>True while T is held to cycle through movement profiles.</summary>
         public bool ProfileSwitchHeld => Keyboard.current != null && Keyboard.current.tKey.isPressed;
+
+        public void SetGameplayInputEnabled(bool enabled)
+        {
+            GameplayInputEnabled = enabled;
+        }
 
         private void OnEnable()
         {

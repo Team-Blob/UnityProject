@@ -20,6 +20,8 @@ namespace BlobGame.Player
         private const string Fall = "Fall";
         private const string Land = "Land";
         private const string SprintBurst = "SprintBurst";
+        private const string TransformOut = "TransformOut";
+        private const string TransformIn = "TransformIn";
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -34,6 +36,11 @@ namespace BlobGame.Player
         private BlobState previousGameplayState;
         private int currentVisualStateHash;
         private VisualSequence sequence;
+        private BlobMovementConfig transformationTarget;
+        private TransformationPhase transformationPhase;
+
+        public bool IsTransforming => transformationPhase != TransformationPhase.None;
+        public bool IsTransformationComplete => transformationPhase == TransformationPhase.Complete;
 
         private enum VisualSequence
         {
@@ -41,6 +48,14 @@ namespace BlobGame.Player
             JumpPrepare,
             JumpApex,
             Land
+        }
+
+        private enum TransformationPhase
+        {
+            None,
+            Out,
+            In,
+            Complete
         }
 
         private void Reset()
@@ -64,7 +79,29 @@ namespace BlobGame.Player
             OnValidate();
             previousGameplayState = null;
             sequence = VisualSequence.None;
+            transformationPhase = TransformationPhase.None;
+            ApplyAnimationProfile(blob.CurrentMovementConfig?.AnimationProfile);
             TickVisuals();
+        }
+
+        public void BeginTransformation(BlobMovementConfig target)
+        {
+            if (target == null || IsTransforming)
+                return;
+
+            transformationTarget = target;
+            transformationPhase = TransformationPhase.Out;
+            sequence = VisualSequence.None;
+            Play(TransformOut);
+        }
+
+        public void FinishTransformation()
+        {
+            transformationTarget = null;
+            transformationPhase = TransformationPhase.None;
+            previousGameplayState = null;
+            sequence = VisualSequence.None;
+            animator.speed = 1f;
         }
 
         public void TickVisuals()
@@ -74,6 +111,12 @@ namespace BlobGame.Player
 
             spriteRenderer.flipX = blob.FacingDirection < 0f;
 
+            if (IsTransforming)
+            {
+                UpdateTransformation();
+                return;
+            }
+
             BlobState gameplayState = blob.CurrentState;
             if (gameplayState != previousGameplayState)
                 EnterGameplayState(previousGameplayState, gameplayState);
@@ -81,6 +124,27 @@ namespace BlobGame.Player
                 UpdateCurrentVisual(gameplayState);
 
             previousGameplayState = gameplayState;
+        }
+
+        private void UpdateTransformation()
+        {
+            if (transformationPhase == TransformationPhase.Out && HasCurrentClipFinished())
+            {
+                blob.ApplyPendingMovementConfig();
+                ApplyAnimationProfile(transformationTarget?.AnimationProfile);
+                Play(TransformIn);
+                transformationPhase = TransformationPhase.In;
+                return;
+            }
+
+            if (transformationPhase == TransformationPhase.In && HasCurrentClipFinished())
+                transformationPhase = TransformationPhase.Complete;
+        }
+
+        private void ApplyAnimationProfile(BlobAnimationProfile profile)
+        {
+            if (profile != null && profile.AnimatorController != null)
+                animator.runtimeAnimatorController = profile.AnimatorController;
         }
 
         private void EnterGameplayState(BlobState previousState, BlobState currentState)
