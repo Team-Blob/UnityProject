@@ -18,6 +18,7 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     }
 
     private BlobInputReader input;
+    private BlobController player;
     private Rigidbody2D body;
     private Collider2D bodyCollider;
     private RockAbilityConfig config;
@@ -29,6 +30,11 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     private SlamPhase phase;
     private float hopStartY;
     private bool isActive;
+    private bool IsRockMovementActive =>
+        player != null
+        && player.CurrentMovementConfig != null
+        && player.CurrentMovementConfig.AbilityDefinition != null
+        && player.CurrentMovementConfig.AbilityDefinition.AbilityConfig == config;
 
     private float DestructionRadius => config != null ? config.DestructionRadius : 0.75f;
     private Vector2 DestructionOffset => config != null ? config.DestructionOffset : Vector2.zero;
@@ -39,6 +45,7 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     private void Awake()
     {
         input = GetComponent<BlobInputReader>();
+        player = GetComponent<BlobController>();
         body = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
         collisionFilter = new ContactFilter2D
@@ -62,8 +69,15 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
 
     private void Update()
     {
-        if (isActive
-            && phase == SlamPhase.Inactive
+        if (!isActive || !IsRockMovementActive)
+        {
+            if (phase != SlamPhase.Inactive)
+                CancelSlam();
+
+            return;
+        }
+
+        if (phase == SlamPhase.Inactive
             && input != null
             && input.GameplayInputEnabled
             && Keyboard.current != null
@@ -75,6 +89,14 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
 
     private void FixedUpdate()
     {
+        if (!IsRockMovementActive)
+        {
+            if (phase != SlamPhase.Inactive)
+                CancelSlam();
+
+            return;
+        }
+
         if (phase == SlamPhase.Inactive)
             return;
 
@@ -203,6 +225,12 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     {
         phase = SlamPhase.Inactive;
         body.linearVelocity = new Vector2(body.linearVelocity.x, Mathf.Max(0f, body.linearVelocity.y));
+        RemoveDestructionCollider();
+    }
+
+    private void CancelSlam()
+    {
+        phase = SlamPhase.Inactive;
         RemoveDestructionCollider();
     }
 

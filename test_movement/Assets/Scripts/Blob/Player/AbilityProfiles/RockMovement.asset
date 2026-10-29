@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9452231264552654baddbca90aad85b7, type: 3}
   m_Name: RockMovement
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobMovementConfig
-  moveSpeed: 2
-  airControl: 0.8
+  moveSpeed: 4
+  airControl: 0.448
   inputDeadZone: 0.05
-  sprintBurstSpeed: 2
+  sprintBurstSpeed: 6.5
   sprintBurstDuration: 0.18
-  sustainedSprintSpeed: 2
+  sustainedSprintSpeed: 7
   currentWeight: 10
   jumpSpeedByWeight:
     serializedVersion: 2
@@ -70,9 +70,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  riseGravityScale: 3
+  riseGravityScale: 2.5
   releasedRiseGravityScale: 5
-  fallGravityScale: 7
+  fallGravityScale: 8
   jumpCutMultiplier: 0.6
   maxFallSpeed: 50
   abilityDefinition: {fileID: 11400000, guid: d29a8c1cff87f004aab100662f92256d, type: 2}

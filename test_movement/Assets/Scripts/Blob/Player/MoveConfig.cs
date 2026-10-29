@@ -7,7 +7,7 @@ namespace BlobGame.Player
     /// Shared, designer-authored locomotion tuning. Keep this asset immutable at
     /// runtime; per-player upgrades belong on BlobController's runtime state.
     /// </summary>
-    [CreateAssetMenu(menuName = "Blob/Player/Movement Config", fileName = "BlobMovementConfig")]
+    [CreateAssetMenu(menuName = "Blob/Player/New Ability Movement Config", fileName = "BlobMovementConfig")]
     public sealed class BlobMovementConfig : ScriptableObject
     {
         [Header("Movement")]

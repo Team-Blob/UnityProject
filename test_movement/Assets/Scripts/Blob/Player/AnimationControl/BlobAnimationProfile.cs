@@ -6,7 +6,7 @@ namespace BlobGame.Player
     /// Presentation assets associated with one movement/material profile.
     /// The controller must preserve the common Blob animation state names.
     /// </summary>
-    [CreateAssetMenu(menuName = "Blob/Player/Animation Profile", fileName = "BlobAnimationProfile")]
+    [CreateAssetMenu(menuName = "Blob/Player/Animation/New Animation Profile", fileName = "BlobAnimationProfile")]
     public sealed class BlobAnimationProfile : ScriptableObject
     {
         [SerializeField] private RuntimeAnimatorController animatorController;

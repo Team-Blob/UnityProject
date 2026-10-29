@@ -12,17 +12,21 @@
   <component name="ChangeListManager">
     <list default="true" id="3f41f758-8171-43c1-946f-d7caac8df6da" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.test_movement/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.test_movement/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelTest1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelTest1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/BlobInputReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/BlobInputReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Grass/Grapple2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Grass/Grapple2D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/First_Level.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/First_Level.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/AbilityProfiles/RockMovement.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/AbilityProfiles/RockMovement.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/AnimationControl/BlobAnimationConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/AnimationControl/BlobAnimationConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/AnimationControl/BlobAnimationProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/AnimationControl/BlobAnimationProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/MoveConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/MoveConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/MoveProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/Player/MoveProfile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Grass/GrappleConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Grass/GrappleConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/BlobPowerUpDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/BlobPowerUpDefinition.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/ChangeBlobMovementConfigEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/ChangeBlobMovementConfigEffect.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/ModifyBlobMovementEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/ModifyBlobMovementEffect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/NewAbilityConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Modularity/NewAbilityConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbility.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbility.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbility.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockConfig.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbilityConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbilityConfig.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbilityConfig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbilityConfig.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +49,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Grapple.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/NewAbilityConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbilityConfig.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockAbilityConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blob/PowerUps/Stone/RockDefinition.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">

@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobController
   movementConfig: {fileID: 0}
-  movementProfileSet: {fileID: 0}
+  movementProfileSet: {fileID: 11400000, guid: 29a3c410c4de4f55a2fe7b56c1a84704, type: 2}
 --- !u!114 &4781459307841103792
 MonoBehaviour:
   m_ObjectHideFlags: 0

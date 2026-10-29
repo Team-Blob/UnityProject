@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BlobGame.Player.PowerUps
 {
     /// <summary>Asset effect for permanent movement and jump stat upgrades.</summary>
-    [CreateAssetMenu(menuName = "Blob/Modify Movement", fileName = "ModifyMovement")]
+    [CreateAssetMenu(menuName = "Blob/New Movement Modifier", fileName = "ModifyMovement")]
     public sealed class ModifyBlobMovementEffect : BlobPowerUpEffect
     {
         [SerializeField, Min(0f)] private float moveSpeedMultiplier = 1f;

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf62c25f6a14c11b2d8e6e9a1f7c304, type: 3}
   m_Name: RockAbilityConfig
   m_EditorClassIdentifier: Assembly-CSharp::RockAbilityConfig
-  destructionRadius: 0.75
+  destructionRadius: 1.25
   destructionOffset: {x: 0, y: -0.5}
-  hopHeight: 1
+  hopHeight: 3.22
   slamSpeed: 20
   groundProbeDistance: 0.12

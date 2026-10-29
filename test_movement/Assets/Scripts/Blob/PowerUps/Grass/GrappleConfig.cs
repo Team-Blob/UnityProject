@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BlobGame.Player
 {
-    [CreateAssetMenu(menuName = "Abilities/Grass/Ability Config", fileName = "GrappleConfig")]
+    [CreateAssetMenu(menuName = "Abilities/Grass/New Ability Config", fileName = "GrappleConfig")]
     public sealed class GrappleConfig : ScriptableObject
     {
         [SerializeField, Min(0.1f)] private float maxDistance = 12f;

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BlobGame.Player.PowerUps
 {
     /// <summary>Reusable asset describing a collectible player upgrade.</summary>
-    [CreateAssetMenu(menuName = "Abilities/Define Ability", fileName = "Definition")]
+    [CreateAssetMenu(menuName = "Abilities/New Ability Profile", fileName = "Definition")]
     public sealed class BlobPowerUpDefinition : ScriptableObject
     {
         [Tooltip("Stable unique key used to prevent collecting this upgrade more than once.")]

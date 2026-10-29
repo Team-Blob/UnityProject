@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BlobGame.Player
 {
     /// <summary>Ordered list of movement profiles available for player cycling.</summary>
-    [CreateAssetMenu(menuName = "Blob/Player/Movement Profile Set", fileName = "MovementProfiles")]
+    [CreateAssetMenu(menuName = "Blob/Player/New Ability List", fileName = "MovementProfiles")]
     public sealed class BlobMovementProfileSet : ScriptableObject
     {
         [SerializeField] private List<BlobMovementConfig> profiles = new();
