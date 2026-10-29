@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dd539875e9f0443833f37a79e52fed, type: 3}
   m_Name: RockAnimationProfile
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobAnimationProfile
-  animatorController: {fileID: 0}
+  animatorController: {fileID: 22100000, guid: 8d6b6c35f20c7b74fa0e22ceb9e397b9, type: 2}
