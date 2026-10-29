@@ -1,16 +1,15 @@
+using BlobGame.Player.StateMachine.States;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityPipeline.System.Reflection.Metadata;
 
 public class DeathPlane : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Transform SpawnPoint;
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("invalid");
+        other.transform.position = SpawnPoint.position;
+        //Destroy(other.gameObject);
     }
 }
