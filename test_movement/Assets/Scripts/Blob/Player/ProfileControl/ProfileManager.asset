@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29a3c410c4de4f55a2fe7b56c1a84702, type: 3}
-  m_Name: MovementProfiles
+  m_Name: ProfileManager
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobMovementProfileSet
   profiles:
-  - {fileID: 11400000, guid: 73fa5a0d08940f145a72c07d74d378fc, type: 2}
+  - {fileID: 11400000, guid: a730b44a1ddc83b40991f7b0ad71b4df, type: 2}
   - {fileID: 11400000, guid: a16afe59efd1b104b8a5347b60ac4da1, type: 2}
+  - {fileID: 11400000, guid: b143d0a8562730440a5f0c16a4992641, type: 2}
