@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6155a86a63bd7de40b8a23db4e7ac75c, type: 3}
+  m_Name: Grapple
+  m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.PowerUps.BlobPowerUpDefinition
+  id: 0
+  displayName: Grass
+  description: Allows user to grapple onto platforms
+  effects:
+  - {fileID: 11400000, guid: afd65f611915565459c761c0327f77fe, type: 2}
+  - {fileID: 11400000, guid: 800a6dfe925529e40ab3212df67a9fd7, type: 2}

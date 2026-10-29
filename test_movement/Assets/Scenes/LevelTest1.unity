@@ -3940,6 +3940,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 807995080784960558, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
+      propertyPath: rope
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 807995080784960558, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
       propertyPath: targetCamera
       value: 
       objectReference: {fileID: 1229741417}
@@ -4039,8 +4043,10 @@ PrefabInstance:
       propertyPath: m_Parameters.colorGradient.m_ColorSpace
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 807995080784960558, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 1669455228112416199, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2990056960403821368, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
       insertIndex: -1

@@ -92,7 +92,8 @@ namespace BlobGame.Player
         public float RiseGravityScale => movementConfig != null ? movementConfig.RiseGravityScale : 3;
         public float ReleasedRiseGravityScale => movementConfig != null ? movementConfig.ReleasedRiseGravityScale : 5;
         public float FallGravityScale => movementConfig != null ? movementConfig.FallGravityScale : 7;
-        public bool CurrentProfileAllowsGrapple => movementConfig != null && movementConfig.AllowsGrapple;
+        public bool CurrentProfileHasGrappleAbility =>
+            movementConfig != null && movementConfig.GrappleAbilityConfig != null;
         public BlobMovementConfig CurrentMovementConfig => movementConfig;
         internal BlobMovementConfig PendingMovementConfig => pendingMovementConfig;
 
@@ -118,7 +119,7 @@ namespace BlobGame.Player
             movementProfileIndex = FindProfileIndex(config);
             pendingMovementConfig = null;
 
-            if (!config.AllowsGrapple && IsGrappling)
+            if (config.GrappleAbilityConfig == null && IsGrappling)
                 grapple.Release();
         }
 
