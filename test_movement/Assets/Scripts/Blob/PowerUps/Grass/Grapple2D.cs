@@ -33,6 +33,7 @@ namespace BlobGame.Player
         private Vector2 grapplePoint;
         private bool isUnlocked;
         private bool hasAimTarget;
+        private bool waitForGrappleRelease;
 
         public bool IsAttached => ropeJoint != null && ropeJoint.enabled;
         public bool IsUnlocked => isUnlocked;
@@ -43,6 +44,7 @@ namespace BlobGame.Player
         private float MaxDistance => ActiveConfig != null ? ActiveConfig.MaxDistance : maxDistance;
         private LayerMask GrappleMask => ActiveConfig != null ? ActiveConfig.GrappleMask : grappleMask;
         private float SwingAcceleration => ActiveConfig != null ? ActiveConfig.SwingAcceleration : 14f;
+        private float ClimbSpeed => ActiveConfig != null ? ActiveConfig.ClimbSpeed : 4f;
         private Texture2D AimMarkerTexture => ActiveConfig != null ? ActiveConfig.AimMarkerTexture : null;
         private float AimMarkerSize => ActiveConfig != null ? ActiveConfig.AimMarkerSize : 24f;
 
@@ -104,6 +106,7 @@ namespace BlobGame.Player
             {
                 if (input.JumpPressed)
                 {
+                    waitForGrappleRelease = true;
                     Release();
                     player?.JumpFromGrapple();
                     return;
@@ -116,6 +119,15 @@ namespace BlobGame.Player
                 }
 
                 UpdateRope();
+                return;
+            }
+
+            if (waitForGrappleRelease)
+            {
+                if (!input.GrappleHeld)
+                    waitForGrappleRelease = false;
+
+                hasAimTarget = false;
                 return;
             }
 
@@ -132,7 +144,17 @@ namespace BlobGame.Player
             // Horizontal force changes the pendulum arc while the distance joint
             // keeps the player attached to the same anchor.
             Vector2 acceleration = Vector2.right * (input.MoveX * SwingAcceleration);
+            float climbInput = input.MoveY;
+            if (Mathf.Abs(climbInput) > Mathf.Epsilon)
+            {
+                ropeJoint.distance = Mathf.Clamp(
+                    ropeJoint.distance - climbInput * ClimbSpeed * Time.fixedDeltaTime,
+                    0.5f,
+                    MaxDistance);
+            }
+
             Vector2 predictedVelocity = body.linearVelocity + acceleration * Time.fixedDeltaTime;
+            predictedVelocity += Physics2D.gravity * (body.gravityScale * Time.fixedDeltaTime);
             if (TryBlockSwingThroughObstacle(predictedVelocity))
                 return;
 
@@ -187,10 +209,11 @@ namespace BlobGame.Player
 
             Vector2 origin = body.worldCenterOfMass;
             Vector2 aim = (Vector2)mouseWorld - origin;
-            if (aim.sqrMagnitude <= Mathf.Epsilon)
+            float aimDistance = aim.magnitude;
+            if (aimDistance <= Mathf.Epsilon || aimDistance > MaxDistance)
                 return false;
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(origin, aim.normalized, MaxDistance, GrappleMask);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(origin, aim.normalized, aimDistance, GrappleMask);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.collider == null || hit.transform.root == transform.root)
@@ -212,7 +235,7 @@ namespace BlobGame.Player
             ropeJoint.anchor = transform.InverseTransformPoint(body.worldCenterOfMass);
             ropeJoint.connectedAnchor = grapplePoint;
             ropeJoint.distance = Vector2.Distance(body.worldCenterOfMass, grapplePoint);
-            ropeJoint.maxDistanceOnly = true;
+            ropeJoint.maxDistanceOnly = false;
             ropeJoint.enabled = true;
             SetRopeVisible(true);
             UpdateRope();
@@ -283,7 +306,7 @@ namespace BlobGame.Player
 
         private void OnGUI()
         {
-            if (!isUnlocked || IsAttached || !hasAimTarget || targetCamera == null)
+            if (!isUnlocked || IsAttached || !hasAimTarget || targetCamera == null || !IsMouseInRange())
                 return;
 
             Vector3 screenPoint = targetCamera.WorldToScreenPoint(grapplePoint);
@@ -313,6 +336,18 @@ namespace BlobGame.Player
             GUI.DrawTexture(new Rect(x - thickness * 0.5f, y - gap - armLength, thickness, armLength), Texture2D.whiteTexture);
             GUI.DrawTexture(new Rect(x - thickness * 0.5f, y + gap, thickness, armLength), Texture2D.whiteTexture);
             GUI.color = previousColor;
+        }
+
+        private bool IsMouseInRange()
+        {
+            if (targetCamera == null || Mouse.current == null || body == null)
+                return false;
+
+            Vector2 mouseScreen = Mouse.current.position.ReadValue();
+            float cameraDepth = Mathf.Abs(targetCamera.transform.position.z - transform.position.z);
+            Vector3 mouseWorld = targetCamera.ScreenToWorldPoint(
+                new Vector3(mouseScreen.x, mouseScreen.y, cameraDepth));
+            return ((Vector2)mouseWorld - body.worldCenterOfMass).sqrMagnitude <= MaxDistance * MaxDistance;
         }
     }
 }

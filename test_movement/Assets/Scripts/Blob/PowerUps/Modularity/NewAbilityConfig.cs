@@ -2,7 +2,7 @@ using BlobGame.Player;
 using BlobGame.Player.PowerUps;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewAbilityConfig", menuName = "Blob/Power Ups/Effects/NewAbilityConfig")]
+[CreateAssetMenu(fileName = "NewAbilityConfig", menuName = "Abilities/New Ability")]
 public class NewAbilityConfig : BlobPowerUpEffect
 {
     [SerializeField] private ScriptableObject abilityConfig;

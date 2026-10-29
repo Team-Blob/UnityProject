@@ -49,6 +49,32 @@ namespace BlobGame.Player
         }
 
         /// <summary>
+        /// Vertical movement input in the range -1 to 1.
+        /// </summary>
+        public float MoveY
+        {
+            get
+            {
+                if (!GameplayInputEnabled)
+                    return 0f;
+
+                if (moveAction != null)
+                    return moveAction.ReadValue<Vector2>().y;
+
+                float keyboard = 0f;
+                if (Keyboard.current != null)
+                {
+                    if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
+                        keyboard -= 1f;
+                    if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
+                        keyboard += 1f;
+                }
+
+                return keyboard;
+            }
+        }
+
+        /// <summary>
         /// True only on the frame when the jump action is pressed.
         /// </summary>
         public bool JumpPressed

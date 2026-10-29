@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 142e752d4ef1833458c46ee5f93b94bf, type: 3}
   m_Name: RockConfig
   m_EditorClassIdentifier: Assembly-CSharp::NewAbilityConfig
-  abilityConfig: {fileID: 0}
-  abilityScript: {fileID: 0}
+  abilityConfig: {fileID: 11400000, guid: 9cc345de2e2f4d0f9f23e329af1d5891, type: 2}
+  abilityScript: {fileID: 7333916399536398235, guid: 93fa0bebda485d54f926c5cffb3665f9, type: 3}
