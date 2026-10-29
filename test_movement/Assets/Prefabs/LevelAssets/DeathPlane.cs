@@ -1,7 +1,6 @@
 using BlobGame.Player.StateMachine.States;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityPipeline.System.Reflection.Metadata;
 
 public class DeathPlane : MonoBehaviour
 {
