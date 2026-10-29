@@ -37,11 +37,14 @@ namespace BlobGame.Player
         public bool IsAttached => ropeJoint != null && ropeJoint.enabled;
         public bool IsUnlocked => isUnlocked;
 
-        private float MaxDistance => config != null ? config.MaxDistance : maxDistance;
-        private LayerMask GrappleMask => config != null ? config.GrappleMask : grappleMask;
-        private float SwingAcceleration => config != null ? config.SwingAcceleration : 14f;
-        private Texture2D AimMarkerTexture => config != null ? config.AimMarkerTexture : null;
-        private float AimMarkerSize => config != null ? config.AimMarkerSize : 24f;
+        private GrappleConfig ActiveConfig => player != null
+            ? player.CurrentMovementConfig?.GrappleAbilityConfig ?? config
+            : config;
+        private float MaxDistance => ActiveConfig != null ? ActiveConfig.MaxDistance : maxDistance;
+        private LayerMask GrappleMask => ActiveConfig != null ? ActiveConfig.GrappleMask : grappleMask;
+        private float SwingAcceleration => ActiveConfig != null ? ActiveConfig.SwingAcceleration : 14f;
+        private Texture2D AimMarkerTexture => ActiveConfig != null ? ActiveConfig.AimMarkerTexture : null;
+        private float AimMarkerSize => ActiveConfig != null ? ActiveConfig.AimMarkerSize : 24f;
 
         private void Awake()
         {
@@ -81,7 +84,7 @@ namespace BlobGame.Player
 
         private void Update()
         {
-            if (!isUnlocked || player == null || !player.CurrentProfileAllowsGrapple)
+            if (!isUnlocked || player == null || !player.CurrentProfileHasGrappleAbility)
             {
                 if (IsAttached)
                     Release();
@@ -144,12 +147,12 @@ namespace BlobGame.Player
 
         private void EnsureRopeRenderer()
         {
-            if (rope == null)
-                rope = GetComponent<LineRenderer>();
             if (rope != null)
                 return;
 
-            rope = gameObject.AddComponent<LineRenderer>();
+            GameObject ropeObject = new GameObject("Grapple Line");
+            ropeObject.transform.SetParent(transform, false);
+            rope = ropeObject.AddComponent<LineRenderer>();
             rope.useWorldSpace = true;
             rope.positionCount = 2;
             rope.startWidth = 0.04f;

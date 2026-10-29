@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: UnlockGrapple
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.PowerUps.UnlockGrappleEffect
   grappleConfig: {fileID: 11400000, guid: 18a3c410c4de4f55a2fe7b56c1a84706, type: 2}
-  unlockMovementProfile: {fileID: 11400000, guid: b705f049d8d04b8489d1c2bb69335e79, type: 2}
+  unlockMovementProfile: {fileID: 11400000, guid: a16afe59efd1b104b8a5347b60ac4da1, type: 2}

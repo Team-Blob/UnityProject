@@ -30,9 +30,8 @@ namespace BlobGame.Player
         [SerializeField, Range(0f, 1f)] private float jumpCutMultiplier = 0.6f;
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
-        [Header("Abilities")]
-        
-        [SerializeField] private bool allowsGrapple;
+        [Header("Ability")]
+        [SerializeField] private ScriptableObject abilityConfig;
 
         [Header("Presentation")]
         [Tooltip("Animation set used by this material/movement profile.")]
@@ -50,7 +49,20 @@ namespace BlobGame.Player
         public float FallGravityScale => fallGravityScale;
         public float JumpCutMultiplier => jumpCutMultiplier;
         public float MaxFallSpeed => maxFallSpeed;
-        public bool AllowsGrapple => allowsGrapple;
+        public ScriptableObject AbilityConfig => abilityConfig;
+        public GrappleConfig GrappleAbilityConfig
+        {
+            get
+            {
+                if (abilityConfig is GrappleConfig grappleConfig)
+                    return grappleConfig;
+
+                if (abilityConfig is global::NewAbilityConfig abilityDefinition)
+                    return abilityDefinition.AbilityConfig as GrappleConfig;
+
+                return null;
+            }
+        }
         public BlobAnimationProfile AnimationProfile => animationProfile;
         
 
