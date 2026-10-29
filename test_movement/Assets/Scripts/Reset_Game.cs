@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Reset_Game : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public class Reset_Game : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("invalid");
-        other.transform.position = SpawnPoint.position;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         
     }
 }
