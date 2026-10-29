@@ -6,9 +6,9 @@ using UnityEngine;
 public class NewAbilityConfig : BlobPowerUpEffect
 {
     [SerializeField] private ScriptableObject abilityConfig;
-    [Tooltip("Assign this script from a prefab so its component type can be added to the player when the power-up is applied.")]
+    [Tooltip("Assign a component from a prefab that implements IConfigurablePowerUpAbility.")]
     [SerializeField] private MonoBehaviour abilityScript;
-    
+
     public ScriptableObject AbilityConfig => abilityConfig;
     public MonoBehaviour AbilityScript => abilityScript;
 
@@ -16,11 +16,10 @@ public class NewAbilityConfig : BlobPowerUpEffect
     {
         if (player == null)
             return;
-        
 
-        if (abilityScript == null)
+        if (abilityScript == null || !(abilityScript is IConfigurablePowerUpAbility))
         {
-            Debug.LogWarning($"Cannot apply {name}: no ability script is assigned.", this);
+            Debug.LogWarning($"Cannot apply {name}: assign an ability script that implements IConfigurablePowerUpAbility.", this);
             return;
         }
 
@@ -29,7 +28,7 @@ public class NewAbilityConfig : BlobPowerUpEffect
         if (ability == null)
             ability = player.gameObject.AddComponent(abilityType) as MonoBehaviour;
 
-        if (ability is Grapple2D grapple)
-            grapple.Unlock(abilityConfig as GrappleConfig);
+        if (ability is IConfigurablePowerUpAbility configurableAbility)
+            configurableAbility.Activate(abilityConfig);
     }
 }

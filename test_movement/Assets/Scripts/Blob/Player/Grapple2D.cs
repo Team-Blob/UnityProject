@@ -9,7 +9,7 @@ namespace BlobGame.Player
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(BlobInputReader))]
     [DisallowMultipleComponent]
-    public sealed class Grapple2D : MonoBehaviour
+    public sealed class Grapple2D : MonoBehaviour, BlobGame.Player.PowerUps.IConfigurablePowerUpAbility
     {
         [Header("Targeting")]
         [SerializeField] private GrappleConfig config;
@@ -73,11 +73,17 @@ namespace BlobGame.Player
             SetRopeVisible(false);
         }
 
-        /// <summary>Called only by the collected grapple power-up.</summary>
-        public void Unlock(GrappleConfig grappleConfig = null)
+        public void Activate(ScriptableObject abilityConfig)
         {
-            if (grappleConfig != null)
+            if (abilityConfig != null && !(abilityConfig is GrappleConfig))
+            {
+                Debug.LogWarning("Grapple2D requires a GrappleConfig ability config.", this);
+                return;
+            }
+
+            if (abilityConfig is GrappleConfig grappleConfig)
                 config = grappleConfig;
+
             isUnlocked = true;
             enabled = true;
         }
