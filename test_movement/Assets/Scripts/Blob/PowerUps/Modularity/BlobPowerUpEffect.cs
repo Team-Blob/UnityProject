@@ -10,4 +10,9 @@ namespace BlobGame.Player.PowerUps
     {
         public abstract void Apply(BlobController player);
     }
+
+    public interface IConfigurablePowerUpAbility
+    {
+        void Activate(ScriptableObject config);
+    }
 }

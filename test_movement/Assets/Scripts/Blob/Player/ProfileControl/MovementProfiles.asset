@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobMovementProfileSet
   profiles:
   - {fileID: 11400000, guid: 73fa5a0d08940f145a72c07d74d378fc, type: 2}
-  - {fileID: 11400000, guid: b705f049d8d04b8489d1c2bb69335e79, type: 2}
+  - {fileID: 11400000, guid: a16afe59efd1b104b8a5347b60ac4da1, type: 2}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BlobGame.Player
 {
@@ -30,9 +31,9 @@ namespace BlobGame.Player
         [SerializeField, Range(0f, 1f)] private float jumpCutMultiplier = 0.6f;
         [SerializeField, Min(0f)] private float maxFallSpeed = 20f;
 
-        [Header("Abilities")]
-        
-        [SerializeField] private bool allowsGrapple;
+        [Header("Ability")]
+        [FormerlySerializedAs("abilityConfig")]
+        [SerializeField] private global::NewAbilityConfig abilityDefinition;
 
         [Header("Presentation")]
         [Tooltip("Animation set used by this material/movement profile.")]
@@ -50,7 +51,10 @@ namespace BlobGame.Player
         public float FallGravityScale => fallGravityScale;
         public float JumpCutMultiplier => jumpCutMultiplier;
         public float MaxFallSpeed => maxFallSpeed;
-        public bool AllowsGrapple => allowsGrapple;
+        public global::NewAbilityConfig AbilityDefinition => abilityDefinition;
+        public GrappleConfig GrappleAbilityConfig => abilityDefinition != null
+            ? abilityDefinition.AbilityConfig as GrappleConfig
+            : null;
         public BlobAnimationProfile AnimationProfile => animationProfile;
         
 

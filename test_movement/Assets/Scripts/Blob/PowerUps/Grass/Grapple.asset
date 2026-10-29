@@ -16,4 +16,5 @@ MonoBehaviour:
   displayName: Grass
   description: Allows user to grapple onto platforms
   effects:
-  - {fileID: 11400000, guid: c43a381f746e36a44815a2b44de00621, type: 2}
+  - {fileID: 11400000, guid: afd65f611915565459c761c0327f77fe, type: 2}
+  - {fileID: 11400000, guid: 800a6dfe925529e40ab3212df67a9fd7, type: 2}
