@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87dd539875e9f0443833f37a79e52fed, type: 3}
+  m_Name: RockAnimationProfile
+  m_EditorClassIdentifier: Assembly-CSharp::BlobGame.Player.BlobAnimationProfile
+  animatorController: {fileID: 22100000, guid: 8d6b6c35f20c7b74fa0e22ceb9e397b9, type: 2}

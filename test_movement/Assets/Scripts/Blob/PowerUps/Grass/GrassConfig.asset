@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142e752d4ef1833458c46ee5f93b94bf, type: 3}
+  m_Name: GrassConfig
+  m_EditorClassIdentifier: Assembly-CSharp::NewAbilityConfig
+  abilityConfig: {fileID: 11400000, guid: 18a3c410c4de4f55a2fe7b56c1a84706, type: 2}
+  abilityScript: {fileID: 9049663533814714261, guid: 9561486f27ad3ce458c3aeb4ec509073, type: 3}

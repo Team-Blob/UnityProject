@@ -11,14 +11,31 @@ namespace BlobGame.Editor
 {
     public static class BlobPrototypeSceneBuilder
     {
-        private const string TexturePath = "Assets/Art/Prototype/WhiteTestTile.png";
-        private const string TilePath = "Assets/Tiles/WhiteTestTile.asset";
+        private const string TexturePath = "Assets/Art/Environment/Sprites/Terrain/WhiteTestTile.png";
+        private const string TilePath = "Assets/Art/Environment/Tiles/Definitions/WhiteTile_GridCollider.asset";
         private const string InputActionsPath = "Assets/Settings/InputSystem_Actions.inputactions";
-        private const string PlayerMaterialPath = "Assets/Art/Material/Physics2D/BlobZeroFriction.physicsMaterial2D";
+        private const string PlayerMaterialPath = "Assets/Settings/Physics2D/BlobZeroFriction.physicsMaterial2D";
 
         [MenuItem("Blob/Build Movement Test Scene")]
         public static void BuildMovementTestScene()
         {
+            if (typeof(BlobController).GetField("currentWeight",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) == null)
+            {
+                EditorUtility.DisplayDialog("Legacy prototype scene builder is out of date",
+                    "Movement tuning now lives in BlobMovementConfig, but this generator still targets old Controller fields. " +
+                    "Nothing was changed. Update the generator before using it; do not use it for art migration.", "OK");
+                return;
+            }
+
+            // This legacy generator replaces the current map and player setup. It is
+            // not an asset migration tool, and its old tuning fields need updating.
+            if (!EditorUtility.DisplayDialog("Legacy prototype scene builder",
+                    "This tool clears the current Tilemap and overwrites player settings. " +
+                    "It also targets legacy Controller fields. Use a disposable test scene only.",
+                    "Continue in disposable scene", "Cancel"))
+                return;
+
             Sprite tileSprite = CreateWhiteTileSprite();
             Tile whiteTile = CreateWhiteTile(tileSprite);
             Tilemap tilemap = ConfigureTilemap(whiteTile);
@@ -34,8 +51,7 @@ namespace BlobGame.Editor
 
         private static Sprite CreateWhiteTileSprite()
         {
-            EnsureFolder("Assets/Art");
-            EnsureFolder("Assets/Art/Prototype");
+            EnsureFolder("Assets/Art/Environment/Sprites/Terrain");
 
             Texture2D texture = new(32, 32, TextureFormat.RGBA32, false);
             Color32[] pixels = new Color32[32 * 32];
@@ -62,7 +78,7 @@ namespace BlobGame.Editor
 
         private static Tile CreateWhiteTile(Sprite sprite)
         {
-            EnsureFolder("Assets/Tiles");
+            EnsureFolder("Assets/Art/Environment/Tiles/Definitions");
             Tile tile = AssetDatabase.LoadAssetAtPath<Tile>(TilePath);
             if (tile == null)
             {
@@ -180,8 +196,7 @@ namespace BlobGame.Editor
 
         private static PhysicsMaterial2D CreatePlayerPhysicsMaterial()
         {
-            EnsureFolder("Assets/Art/Material");
-            EnsureFolder("Assets/Art/Material/Physics2D");
+            EnsureFolder("Assets/Settings/Physics2D");
 
             PhysicsMaterial2D material = AssetDatabase.LoadAssetAtPath<PhysicsMaterial2D>(PlayerMaterialPath);
             if (material == null)
