@@ -3,5 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class Stuck_Button : MonoBehaviour
 {
-    //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
