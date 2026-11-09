@@ -20,6 +20,7 @@ namespace BlobGame.Player
         [Header("Visual")]
         [SerializeField] private LineRenderer rope;
         [SerializeField] private Color aimMarkerColor = Color.cyan;
+        [SerializeField] private Material lineMaterial = null;
 
         private Rigidbody2D body;
         private Collider2D bodyCollider;
@@ -47,6 +48,7 @@ namespace BlobGame.Player
         private float ClimbSpeed => ActiveConfig != null ? ActiveConfig.ClimbSpeed : 4f;
         private Texture2D AimMarkerTexture => ActiveConfig != null ? ActiveConfig.AimMarkerTexture : null;
         private float AimMarkerSize => ActiveConfig != null ? ActiveConfig.AimMarkerSize : 24f;
+        private Material ActiveRopeMaterial => ActiveConfig != null ? ActiveConfig.GrappleMaterial : lineMaterial;
 
         private void Awake()
         {
@@ -86,6 +88,7 @@ namespace BlobGame.Player
             if (abilityConfig is GrappleConfig grappleConfig)
                 config = grappleConfig;
 
+            ApplyRopeMaterial();
             isUnlocked = true;
             enabled = true;
         }
@@ -179,24 +182,39 @@ namespace BlobGame.Player
         private void EnsureRopeRenderer()
         {
             if (rope != null)
+            {
+                ApplyRopeMaterial();
                 return;
+            }
 
             GameObject ropeObject = new GameObject("Grapple Line");
             ropeObject.transform.SetParent(transform, false);
             rope = ropeObject.AddComponent<LineRenderer>();
             rope.useWorldSpace = true;
             rope.positionCount = 2;
-            rope.startWidth = 0.04f;
-            rope.endWidth = 0.04f;
+            rope.startWidth = config != null ? config.grappleWidth : 0.4f;
+            rope.endWidth = config != null ? config.grappleWidth :  0.4f;
+            rope.alignment = LineAlignment.TransformZ;
             rope.numCapVertices = 3;
+            rope.textureMode = LineTextureMode.Tile;
             rope.startColor = Color.white;
             rope.endColor = Color.white;
             Shader shader = Shader.Find("Sprites/Default");
             if (shader != null)
             {
                 generatedRopeMaterial = new Material(shader);
-                rope.sharedMaterial = generatedRopeMaterial;
             }
+            ApplyRopeMaterial();
+        }
+
+        private void ApplyRopeMaterial()
+        {
+            if (rope == null)
+                return;
+
+            Material materialToUse = ActiveRopeMaterial != null ? ActiveRopeMaterial : generatedRopeMaterial;
+            if (materialToUse != null)
+                rope.material = materialToUse;
         }
 
         private bool TryGetAimTarget(out Vector2 target)

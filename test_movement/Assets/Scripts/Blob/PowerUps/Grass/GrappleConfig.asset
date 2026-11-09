@@ -17,5 +17,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   swingAcceleration: 14
+  climbSpeed: 4
   aimMarkerTexture: {fileID: 0}
   aimMarkerSize: 24
+  grappleMaterial: {fileID: 2100000, guid: d1d22b430654f2f4ba4fdaa895594dd5, type: 2}

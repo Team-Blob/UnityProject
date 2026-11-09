@@ -11,7 +11,8 @@ namespace BlobGame.Player
         [SerializeField, Min(0f)] private float climbSpeed = 4f;
         [SerializeField] private Texture2D aimMarkerTexture;
         [SerializeField, Min(1f)] private float aimMarkerSize = 24f;
-        [SerializeField, Min(0f)] private Material grappleMaterial = null;
+        [SerializeField] public Material grappleMaterial = null;
+        [SerializeField] public float grappleWidth = 0.4f;
         
         public float MaxDistance => maxDistance;
         public LayerMask GrappleMask => grappleMask;
