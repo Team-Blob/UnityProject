@@ -36,6 +36,8 @@ namespace BlobGame.Player
         [SerializeField] private global::NewAbilityConfig abilityDefinition;
 
         [Header("Presentation")]
+        [Tooltip("Material name displayed in the HUD.")]
+        [SerializeField] private string displayName;
         [Tooltip("Animation set used by this material/movement profile.")]
         [SerializeField] private BlobAnimationProfile animationProfile;
 
@@ -55,6 +57,7 @@ namespace BlobGame.Player
         public GrappleConfig GrappleAbilityConfig => abilityDefinition != null
             ? abilityDefinition.AbilityConfig as GrappleConfig
             : null;
+        public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
         public BlobAnimationProfile AnimationProfile => animationProfile;
         
 

@@ -97,6 +97,9 @@ namespace BlobGame.Player
         public BlobMovementConfig CurrentMovementConfig => movementConfig;
         internal BlobMovementConfig PendingMovementConfig => pendingMovementConfig;
 
+        /// <summary>Raised after a new material/movement profile takes effect.</summary>
+        public event System.Action<BlobMovementConfig> MovementConfigChanged;
+
         /// <summary>
         /// Requests a material/movement profile change. The request waits until
         /// Idle, then the Transform state performs the visual and gameplay swap.
@@ -121,6 +124,8 @@ namespace BlobGame.Player
 
             if (config.GrappleAbilityConfig == null && IsGrappling)
                 grapple.Release();
+
+            MovementConfigChanged?.Invoke(CurrentMovementConfig);
         }
 
         
@@ -180,6 +185,10 @@ namespace BlobGame.Player
 
         private void Update()
         {
+            // A paused game still runs Update, but it must not advance player state or input.
+            if (Time.timeScale == 0f)
+                return;
+
             // Evaluate frame-based input and state transitions once per rendered frame.
             Sensors.Refresh();
 

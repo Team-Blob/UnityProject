@@ -76,4 +76,5 @@ MonoBehaviour:
   jumpCutMultiplier: 0.6
   maxFallSpeed: 50
   abilityDefinition: {fileID: 11400000, guid: d29a8c1cff87f004aab100662f92256d, type: 2}
+  displayName: Rock
   animationProfile: {fileID: 11400000, guid: e164c88bfa1568c47a22c1c529365091, type: 2}

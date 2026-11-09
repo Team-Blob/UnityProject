@@ -69,6 +69,9 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+
         if (!isActive || !IsRockMovementActive)
         {
             if (phase != SlamPhase.Inactive)

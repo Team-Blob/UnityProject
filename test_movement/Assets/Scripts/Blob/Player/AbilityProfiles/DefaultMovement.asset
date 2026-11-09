@@ -76,4 +76,5 @@ MonoBehaviour:
   jumpCutMultiplier: 0.6
   maxFallSpeed: 20
   allowsGrapple: 0
+  displayName: Default
   animationProfile: {fileID: 11400000, guid: 27e488022bb847f4d86edec868ce0345, type: 2}
