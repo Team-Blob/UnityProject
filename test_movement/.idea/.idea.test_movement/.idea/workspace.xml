@@ -10,25 +10,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f41f758-8171-43c1-946f-d7caac8df6da" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.test_movement/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.test_movement/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset_2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset_2.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset_3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset_3.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset_4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Flowers_Tileset_4.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Glass_Shards.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Glass_Shards.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset_2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset_2.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset_3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset_3.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset_4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Ground_Tileset_4.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Stone_Tileset.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Stone_Tileset.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Thorn_Tile.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Thorn_Tile.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Tiles/Vine_Tile.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Tiles/Vine_Tile.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
-    </list>
+    <list default="true" id="3f41f758-8171-43c1-946f-d7caac8df6da" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
