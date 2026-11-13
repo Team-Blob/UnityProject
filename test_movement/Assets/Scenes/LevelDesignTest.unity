@@ -82183,18 +82183,18 @@ RectTransform:
   m_GameObject: {fileID: 1312204357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1491355873}
   - {fileID: 1366384768}
-  m_Father: {fileID: 1077749913}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1312204359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82234,7 +82234,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1312204361
 Canvas:
   m_ObjectHideFlags: 0
@@ -82244,8 +82244,8 @@ Canvas:
   m_GameObject: {fileID: 1312204357}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 2
+  m_Camera: {fileID: 1229741417}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -82351,7 +82351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 232, y: 253}
+  m_AnchoredPosition: {x: 848, y: 476}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366384769
@@ -82677,7 +82677,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -212, y: 246}
+  m_AnchoredPosition: {x: -824, y: 414}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1491355874
@@ -83336,9 +83336,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2990056960403821368, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1229741418}
-    - targetCorrespondingSourceObject: {fileID: 2990056960403821368, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1312204358}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e8a84e89ba006c4a8fe72eee2796397, type: 3}
 --- !u!1660057539 &9223372036854775807
@@ -83352,6 +83349,7 @@ SceneRoots:
   - {fileID: 1751458771}
   - {fileID: 118564176}
   - {fileID: 870721182}
+  - {fileID: 1312204358}
   - {fileID: 1393824351}
   - {fileID: 504860886}
   - {fileID: 1610137760907088695}
