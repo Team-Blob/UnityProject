@@ -144,7 +144,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 2.1
+  bundleVersion: 3.0.0
   preloadedAssets:
   - {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   metroInputSource: 0
@@ -799,8 +799,8 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: test_movement
-  metroPackageVersion: 
+  metroPackageName: testmovement
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -808,7 +808,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: test_movement
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Bob_The_Blob
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
