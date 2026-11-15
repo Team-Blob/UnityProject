@@ -19,5 +19,11 @@ namespace BlobGame.UI
             if (uiController != null)
                 uiController.ExitGame();
         }
+
+        public void Controls()
+        {
+            if (uiController != null)
+                uiController.ShowControls();
+        }
     }
 }
