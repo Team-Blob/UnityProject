@@ -3,13 +3,10 @@ using UnityEngine;
 namespace BlobGame.Player.StateMachine.States
 {
     /// <summary>
-    /// A grounded-only, two-phase sprint. A tap completes the committed Burst,
-    /// while holding sprint continues into Sustained movement. Burst locks its
-    /// initial direction; Sustained permits direction changes. Releasing sprint
-    /// returns to Idle or Move. Jumping or leaving the ground takes priority and
-    /// exits the state, so this state never provides an airborne sprint.
+    /// A directional burst that can be used on the ground or in the air. Holding
+    /// sprint after a grounded burst continues into horizontal sustained sprint.
     /// </summary>
-    public sealed class BlobSprintState : BlobGroundedState
+    public sealed class BlobSprintState : BlobState
     {
         private enum SprintPhase
         {
@@ -18,7 +15,7 @@ namespace BlobGame.Player.StateMachine.States
         }
 
         private SprintPhase phase;
-        private float direction;
+        private Vector2 direction;
         private float burstElapsed;
 
         public bool IsBurstPhase => phase == SprintPhase.Burst;
@@ -29,33 +26,39 @@ namespace BlobGame.Player.StateMachine.States
 
         public override void Enter()
         {
-            direction = Blob.HasMoveInput
-                ? Mathf.Sign(Blob.Input.MoveX)
-                : Blob.FacingDirection;
+            Vector2 inputDirection = new(Blob.Input.MoveX, Blob.Input.MoveY);
+            direction = inputDirection.sqrMagnitude > 0.01f
+                ? inputDirection.normalized
+                : Vector2.right * Blob.FacingDirection;
 
-            Blob.SetFacingDirection(direction);
+            if (Mathf.Abs(direction.x) > Mathf.Epsilon)
+                Blob.SetFacingDirection(direction.x);
             phase = SprintPhase.Burst;
             burstElapsed = 0f;
         }
 
         public override BlobState Tick(float deltaTime)
         {
-            BlobState transition = TickGrounded();
-            if (transition != null)
-                return transition;
-
             if (phase == SprintPhase.Burst)
             {
                 burstElapsed += deltaTime;
                 if (burstElapsed < Blob.SprintBurstDuration)
                     return null;
 
-                phase = SprintPhase.Sustained;
+                if (!Blob.Sensors.IsGrounded)
+                    return Blob.FallState;
 
-                // A tap always completes the burst, then returns to normal movement.
                 if (!Blob.Input.SprintHeld)
                     return GetNormalGroundedState();
+
+                phase = SprintPhase.Sustained;
             }
+
+            if (!Blob.Sensors.IsGrounded)
+                return Blob.FallState;
+
+            if (Blob.Input.JumpPressed)
+                return Blob.JumpState;
 
             if (!Blob.Input.SprintHeld)
                 return GetNormalGroundedState();
@@ -64,8 +67,8 @@ namespace BlobGame.Player.StateMachine.States
             // only in the sustained phase.
             if (Blob.HasMoveInput)
             {
-                direction = Mathf.Sign(Blob.Input.MoveX);
-                Blob.SetFacingDirection(direction);
+                direction.x = Mathf.Sign(Blob.Input.MoveX);
+                Blob.SetFacingDirection(direction.x);
             }
 
             return null;
@@ -76,11 +79,13 @@ namespace BlobGame.Player.StateMachine.States
             if (Blob.IsGrappling)
                 return;
 
-            float speed = phase == SprintPhase.Burst
-                ? Blob.SprintBurstSpeed
-                : Blob.SustainedSprintSpeed;
+            if (phase == SprintPhase.Burst)
+            {
+                Blob.Body.linearVelocity = direction * Blob.SprintBurstSpeed;
+                return;
+            }
 
-            Blob.SetHorizontalVelocity(direction * speed);
+            Blob.SetHorizontalVelocity(direction.x * Blob.SustainedSprintSpeed);
         }
 
         private BlobState GetNormalGroundedState()

@@ -12,7 +12,7 @@ namespace BlobGame.Player.StateMachine.States
             if (transition != null)
                 return transition;
 
-            if (Blob.Input.SprintPressed)
+            if (Blob.Input.SprintPressed && Blob.TryUseDash())
                 return Blob.SprintState;
 
             if (!Blob.HasMoveInput)

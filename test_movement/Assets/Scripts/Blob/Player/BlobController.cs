@@ -63,6 +63,7 @@ namespace BlobGame.Player
         private float airControlMultiplier = 1f;
         private float jumpSpeedMultiplier = 1f;
         private bool preserveGrappleMomentum;
+        private bool dashAvailable = true;
         private int movementProfileIndex = -1;
         private bool profileSwitchRequiresRelease;
         private BlobMovementConfig pendingMovementConfig;
@@ -133,6 +134,27 @@ namespace BlobGame.Player
         public bool HasMoveInput => Mathf.Abs(Input.MoveX) > InputDeadZone;
         public bool PreserveGrappleMomentum => preserveGrappleMomentum;
         public float FacingDirection { get; private set; } = 1f;
+
+        public bool TryUseDash()
+        {
+            if (!dashAvailable)
+                return false;
+
+            dashAvailable = false;
+            if (IsGrappling)
+            {
+                if (grapple == null)
+                    grapple = GetComponent<Grapple2D>();
+                grapple?.ReleaseForDash();
+            }
+
+            return true;
+        }
+
+        public void RestoreDashAvailability()
+        {
+            dashAvailable = true;
+        }
         
         public bool IsGrappling
         {
@@ -176,9 +198,15 @@ namespace BlobGame.Player
             TransformState = new BlobTransformState(this);
         }
 
+        public Vector3 LastGroundedPosition { get; private set; }
+
         private void Start()
         {
+            LastGroundedPosition = transform.position;
             Sensors.Refresh();
+            if (Sensors.IsGrounded)
+                LastGroundedPosition = transform.position;
+
             stateMachine.Initialize(Sensors.IsGrounded ? IdleState : FallState);
             Animation?.Initialize(this);
         }
@@ -191,6 +219,8 @@ namespace BlobGame.Player
 
             // Evaluate frame-based input and state transitions once per rendered frame.
             Sensors.Refresh();
+            if (Sensors.IsGrounded && (!Sensors.IsOverlappingGround || !IsGrappling))
+                LastGroundedPosition = transform.position;
 
             if (preserveGrappleMomentum && Sensors.IsGrounded && stateMachine.CurrentState != JumpState)
                 preserveGrappleMomentum = false;
@@ -285,6 +315,22 @@ namespace BlobGame.Player
         {
             // Apply Rigidbody2D movement on Unity's fixed physics timestep.
             Sensors.Refresh();
+            if (IsGrappling && Sensors.IsOverlappingGround)
+            {
+                if (grapple == null)
+                    grapple = GetComponent<Grapple2D>();
+                grapple?.Release();
+                preserveGrappleMomentum = false;
+                Body.position = LastGroundedPosition;
+                Body.linearVelocity = Vector2.zero;
+                Body.angularVelocity = 0f;
+                Sensors.Refresh();
+                return;
+            }
+
+            if (Sensors.IsGrounded && (!Sensors.IsOverlappingGround || !IsGrappling))
+                LastGroundedPosition = transform.position;
+
             stateMachine.FixedTick(Time.fixedDeltaTime);
         }
 

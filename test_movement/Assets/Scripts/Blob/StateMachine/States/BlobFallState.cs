@@ -13,6 +13,9 @@ namespace BlobGame.Player.StateMachine.States
 
         public override BlobState Tick(float deltaTime)
         {
+            if (Blob.Input.SprintPressed && Blob.TryUseDash())
+                return Blob.SprintState;
+
             if (!Blob.Sensors.IsGrounded || Blob.Body.linearVelocity.y > 0.05f)
                 return null;
 

@@ -18,6 +18,7 @@ namespace BlobGame.Player
         [SerializeField] private LayerMask groundMask = ~0;
 
         private readonly Collider2D[] groundHits = new Collider2D[8];
+        private readonly Collider2D[] overlapHits = new Collider2D[16];
         private Collider2D bodyCollider;
         private ContactFilter2D groundFilter;
         private float GroundCheckDepth => config != null ? config.GroundCheckDepth : groundCheckDepth;
@@ -27,6 +28,7 @@ namespace BlobGame.Player
         /// Whether a valid non-trigger ground collider was detected below the player.
         /// </summary>
         public bool IsGrounded { get; private set; }
+        public bool IsOverlappingGround { get; private set; }
 
         private void Awake()
         {
@@ -47,7 +49,24 @@ namespace BlobGame.Player
             if (bodyCollider == null)
             {
                 IsGrounded = false;
+                IsOverlappingGround = false;
                 return;
+            }
+
+            IsOverlappingGround = false;
+            int overlapCount = bodyCollider.Overlap(groundFilter, overlapHits);
+            for (int i = 0; i < overlapCount; i++)
+            {
+                Collider2D hit = overlapHits[i];
+                if (hit == null || hit == bodyCollider || hit.transform.root == transform.root)
+                    continue;
+
+                ColliderDistance2D separation = bodyCollider.Distance(hit);
+                if (separation.isOverlapped && separation.distance < -0.1f)
+                {
+                    IsOverlappingGround = true;
+                    break;
+                }
             }
 
             Bounds bounds = bodyCollider.bounds;
