@@ -11,6 +11,7 @@ namespace BlobGame.Player.StateMachine.States
 
         public override void Enter()
         {
+            Blob.RestoreDashAvailability();
             jumpCutApplied = false;
             jumpCutRequested = false;
             Blob.SetGravity(Blob.RiseGravityScale);
@@ -19,6 +20,9 @@ namespace BlobGame.Player.StateMachine.States
 
         public override BlobState Tick(float deltaTime)
         {
+            if (Blob.Input.SprintPressed && Blob.TryUseDash())
+                return Blob.SprintState;
+
             if (!jumpCutApplied && Blob.Input.JumpReleased && Blob.Body.linearVelocity.y > 0f)
                 jumpCutRequested = true;
 

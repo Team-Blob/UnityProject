@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using BlobGame.Player;
 using BlobGame.Player.PowerUps;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BlobInputReader))]
 [DisallowMultipleComponent]
@@ -22,11 +22,8 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     private Rigidbody2D body;
     private Collider2D bodyCollider;
     private RockAbilityConfig config;
-    private GameObject destructionObject;
-    private CircleCollider2D destructionCollider;
     private ContactFilter2D collisionFilter;
     private readonly RaycastHit2D[] groundHits = new RaycastHit2D[8];
-    private readonly HashSet<GameObject> overlappedBreakables = new();
     private SlamPhase phase;
     private float hopStartY;
     private bool isActive;
@@ -35,9 +32,6 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
         && player.CurrentMovementConfig != null
         && player.CurrentMovementConfig.AbilityDefinition != null
         && player.CurrentMovementConfig.AbilityDefinition.AbilityConfig == config;
-
-    private float DestructionRadius => config != null ? config.DestructionRadius : 0.75f;
-    private Vector2 DestructionOffset => config != null ? config.DestructionOffset : Vector2.zero;
     private float HopHeight => config != null ? config.HopHeight : 1f;
     private float SlamSpeed => config != null ? config.SlamSpeed : 20f;
     private float GroundProbeDistance => config != null ? config.GroundProbeDistance : 0.12f;
@@ -111,7 +105,6 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
             return;
         }
 
-        DestroyBreakablesInRange();
         if (HasGroundBelow())
         {
             FinishSlam();
@@ -133,60 +126,65 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     private void BeginSlam()
     {
         phase = SlamPhase.Slamming;
-        EnsureDestructionCollider();
         body.linearVelocity = new Vector2(body.linearVelocity.x, -SlamSpeed);
     }
 
-    private void EnsureDestructionCollider()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (destructionObject == null)
-        {
-            destructionObject = new GameObject("Rock Slam Destruction Collider");
-            destructionObject.transform.SetParent(transform, false);
-            destructionCollider = destructionObject.AddComponent<CircleCollider2D>();
-            destructionCollider.isTrigger = true;
-        }
-
-        destructionObject.transform.localPosition = DestructionOffset;
-        destructionCollider.radius = DestructionRadius;
+        TryBreakBreakable(collision.collider, GetContactPoint(collision));
     }
 
-    private void DestroyBreakablesInRange()
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (destructionCollider == null)
+        TryBreakBreakable(collision.collider, GetContactPoint(collision));
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        TryBreakBreakable(other, other.ClosestPoint(body.worldCenterOfMass));
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        TryBreakBreakable(other, other.ClosestPoint(body.worldCenterOfMass));
+    }
+
+    private Vector2 GetContactPoint(Collision2D collision)
+    {
+        return collision.contactCount > 0
+            ? collision.GetContact(0).point
+            : collision.collider.ClosestPoint(body.worldCenterOfMass);
+    }
+
+    private void TryBreakBreakable(Collider2D contact, Vector2 contactPoint)
+    {
+        if (phase != SlamPhase.Slamming
+            || contact == null
+            || contact.transform.root == transform.root
+            || !contact.CompareTag(BreakableTag))
             return;
 
-        Vector3 scale = destructionObject.transform.lossyScale;
-        float radius = destructionCollider.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
-        Collider2D[] overlaps = Physics2D.OverlapCircleAll(destructionObject.transform.position, radius);
-        overlappedBreakables.Clear();
-
-        foreach (Collider2D overlap in overlaps)
+        Tilemap tilemap = contact.GetComponent<Tilemap>();
+        if (tilemap != null)
         {
-            if (overlap == null)
-                continue;
-
-            Transform target = overlap.transform;
-            while (target != null && target != transform.root)
-            {
-                if (target.CompareTag(BreakableTag))
-                {
-                    overlappedBreakables.Add(target.gameObject);
-                    break;
-                }
-
-                target = target.parent;
-            }
+            RemoveContactedTile(tilemap, contactPoint);
+            return;
         }
 
-        foreach (GameObject breakable in overlappedBreakables)
-        {
-            if (breakable != null)
-            {
-                breakable.SetActive(false);
-                Destroy(breakable);
-            }
-        }
+        contact.gameObject.SetActive(false);
+        Destroy(contact.gameObject);
+    }
+
+    private void RemoveContactedTile(Tilemap tilemap, Vector2 contactPoint)
+    {
+        Vector2 towardTile = (contactPoint - body.worldCenterOfMass).normalized;
+        Vector3 cellWidth = tilemap.CellToWorld(Vector3Int.right) - tilemap.CellToWorld(Vector3Int.zero);
+        Vector3 cellHeight = tilemap.CellToWorld(Vector3Int.up) - tilemap.CellToWorld(Vector3Int.zero);
+        float probeDistance = Mathf.Min(cellWidth.magnitude, cellHeight.magnitude) * 0.05f;
+        Vector3Int cell = tilemap.WorldToCell(contactPoint + towardTile * probeDistance);
+
+        if (tilemap.HasTile(cell))
+            tilemap.SetTile(cell, null);
     }
 
     private bool HasGroundBelow()
@@ -228,32 +226,15 @@ public sealed class RockAbility : MonoBehaviour, IConfigurablePowerUpAbility
     {
         phase = SlamPhase.Inactive;
         body.linearVelocity = new Vector2(body.linearVelocity.x, Mathf.Max(0f, body.linearVelocity.y));
-        RemoveDestructionCollider();
     }
 
     private void CancelSlam()
     {
         phase = SlamPhase.Inactive;
-        RemoveDestructionCollider();
     }
 
     private void OnDisable()
     {
         phase = SlamPhase.Inactive;
-        RemoveDestructionCollider();
-    }
-
-    private void OnDestroy()
-    {
-        RemoveDestructionCollider();
-    }
-
-    private void RemoveDestructionCollider()
-    {
-        if (destructionObject != null)
-            Destroy(destructionObject);
-
-        destructionObject = null;
-        destructionCollider = null;
     }
 }

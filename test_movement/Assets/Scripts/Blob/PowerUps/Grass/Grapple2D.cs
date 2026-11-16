@@ -153,10 +153,17 @@ namespace BlobGame.Player
             float climbInput = input.MoveY;
             if (Mathf.Abs(climbInput) > Mathf.Epsilon)
             {
-                ropeJoint.distance = Mathf.Clamp(
+                float newDistance = Mathf.Clamp(
                     ropeJoint.distance - climbInput * ClimbSpeed * Time.fixedDeltaTime,
                     0.5f,
                     MaxDistance);
+                float shorteningDistance = ropeJoint.distance - newDistance;
+                Vector2 directionToAnchor = (grapplePoint - body.worldCenterOfMass).normalized;
+                if (shorteningDistance <= 0f
+                    || !IsMovementBlocked(directionToAnchor, shorteningDistance))
+                {
+                    ropeJoint.distance = newDistance;
+                }
             }
 
             Vector2 predictedVelocity = body.linearVelocity + acceleration * Time.fixedDeltaTime;
@@ -249,6 +256,7 @@ namespace BlobGame.Player
 
         private void Attach(Vector2 point)
         {
+            player?.RestoreDashAvailability();
             collisionModeBeforeGrapple = body.collisionDetectionMode;
             body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             grapplePoint = point;
@@ -256,7 +264,7 @@ namespace BlobGame.Player
             ropeJoint.anchor = transform.InverseTransformPoint(body.worldCenterOfMass);
             ropeJoint.connectedAnchor = grapplePoint;
             ropeJoint.distance = Vector2.Distance(body.worldCenterOfMass, grapplePoint);
-            ropeJoint.maxDistanceOnly = false;
+            ropeJoint.maxDistanceOnly = true;
             ropeJoint.enabled = true;
             SetRopeVisible(true);
             UpdateRope();
@@ -276,6 +284,12 @@ namespace BlobGame.Player
                 player?.PreserveMomentumAfterGrapple();
         }
 
+        public void ReleaseForDash()
+        {
+            waitForGrappleRelease = true;
+            Release();
+        }
+
         private bool TryBlockSwingThroughObstacle(Vector2 velocity)
         {
             if (bodyCollider == null || velocity.sqrMagnitude <= Mathf.Epsilon)
@@ -292,6 +306,9 @@ namespace BlobGame.Player
                 if (hit.collider == null || hit.transform.root == transform.root || hit.normal.sqrMagnitude <= Mathf.Epsilon)
                     continue;
 
+                if (Vector2.Dot(velocity, hit.normal) >= 0f)
+                    continue;
+
                 if (hit.distance < closestDistance)
                 {
                     closestHit = hit;
@@ -303,10 +320,24 @@ namespace BlobGame.Player
                 return false;
 
             float velocityIntoSurface = Vector2.Dot(velocity, closestHit.normal);
-            if (velocityIntoSurface < 0f)
-                body.linearVelocity = velocity - velocityIntoSurface * closestHit.normal;
-
+            body.linearVelocity = velocity - velocityIntoSurface * closestHit.normal;
             return true;
+        }
+
+        private bool IsMovementBlocked(Vector2 direction, float distance)
+        {
+            if (bodyCollider == null || distance <= Mathf.Epsilon)
+                return false;
+
+            int hitCount = bodyCollider.Cast(direction, collisionFilter, collisionHits, distance);
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit2D hit = collisionHits[i];
+                if (hit.collider != null && hit.transform.root != transform.root)
+                    return true;
+            }
+
+            return false;
         }
 
         private void UpdateRope()
