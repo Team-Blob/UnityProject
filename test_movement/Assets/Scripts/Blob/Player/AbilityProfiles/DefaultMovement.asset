@@ -77,4 +77,5 @@ MonoBehaviour:
   maxFallSpeed: 20
   abilityDefinition: {fileID: 0}
   displayName: Default
+  hudBackgroundColor: {r: 0.02108293, g: 0.51572317, b: 0.11353904, a: 1}
   animationProfile: {fileID: 11400000, guid: 27e488022bb847f4d86edec868ce0345, type: 2}

@@ -1,15 +1,17 @@
 using BlobGame.Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BlobGame.UI
 {
-    /// <summary>Displays the player's active movement profile without polling it each frame.</summary>
+    /// <summary>Refreshes the HUD label and background when the player's active profile changes.</summary>
     [DisallowMultipleComponent]
     public sealed class MaterialHUD : MonoBehaviour
     {
         [SerializeField] private BlobController player;
         [SerializeField] private TMP_Text materialLabel;
+        [SerializeField] private Image materialBackground;
 
         private bool hasStarted;
 
@@ -43,13 +45,17 @@ namespace BlobGame.UI
 
         private void RefreshMaterial(BlobMovementConfig config)
         {
-            if (materialLabel == null)
-                return;
+            if (materialLabel != null)
+            {
+                string displayName = config != null ? config.DisplayName : null;
+                materialLabel.text = string.IsNullOrWhiteSpace(displayName)
+                    ? "Material: —"
+                    : $"Material: {displayName}";
+            }
 
-            string displayName = config != null ? config.DisplayName : null;
-            materialLabel.text = string.IsNullOrWhiteSpace(displayName)
-                ? "Material: —"
-                : $"Material: {displayName}";
+            // Keep color and text tied to the same applied profile notification.
+            if (materialBackground != null && config != null)
+                materialBackground.color = config.HudBackgroundColor;
         }
     }
 }
