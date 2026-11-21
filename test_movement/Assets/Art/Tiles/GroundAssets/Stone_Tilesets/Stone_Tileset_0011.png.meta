@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 689357f1ad4c51d458a437994db4f6ee
+guid: b10a3384fd9ed0341a904b7239fd69e2
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stone_Tileset_0004_0
+      name: Stone_Tileset_0011_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,72 +111,18 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline:
-      - - {x: 32, y: 32}
-        - {x: -30, y: 32}
-        - {x: -32, y: 30}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-      physicsShape:
-      - - {x: 32, y: 32}
-        - {x: -27, y: 32}
-        - {x: -32, y: 26}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8485ef3a9bbbe214f82ca38a9b25137f
-      internalID: -2757989281221194702
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Stone_Tileset_0004_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d913d07eb77ff15488c3c2c0e72d4b93
-      internalID: -1087664620
+      spriteID: 47db501573bb2144d912ae1214d45f25
+      internalID: -411986973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Tileset_0004_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 128
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8caf59aaa1cc5254a827bd5996d42488
-      internalID: 236321385
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Stone_Tileset_0004_3
+      name: Stone_Tileset_0011_1
       rect:
         serializedVersion: 2
         x: 0
@@ -191,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ce8910ee7c0cc04db75c50bb27c4f78
-      internalID: 1959914740
+      spriteID: 3b5b40262bc6deb47abf06874581893a
+      internalID: 1993722714
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Tileset_0004_4
+      name: Stone_Tileset_0011_2
       rect:
         serializedVersion: 2
         x: 64
@@ -213,14 +159,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a5bd87eb54a7d04d89884223070179c
-      internalID: -1041175084
+      spriteID: f4fd46433f33cba4f89d50dff8217722
+      internalID: -94392004
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Tileset_0004_5
+      name: Stone_Tileset_0011_3
       rect:
         serializedVersion: 2
         x: 128
@@ -235,14 +181,36 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b54237afd5f1c6b41bad4df9fa4c2ff3
-      internalID: 1700482752
+      spriteID: 2f809ecf0b0aa3d48b952189ac096bb7
+      internalID: -768449976
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Tileset_0004_6
+      name: Stone_Tileset_0011_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bb83d5f293e594428aa0be4f6c49adb
+      internalID: 515517762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stone_Tileset_0011_5
       rect:
         serializedVersion: 2
         x: 0
@@ -257,52 +225,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ffd7a7e04a12764287bd40b36f9a221
-      internalID: 1043269949
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Stone_Tileset_0004_7
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9b0c13c2d6f5d8942b3613316fd6947d
-      internalID: -99976604
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Stone_Tileset_0004_8
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 42562c47ddf30824189506f880cdd067
-      internalID: 1220725996
+      spriteID: dff518606bcdec146918834be968dfcf
+      internalID: -1759893329
       vertices: []
       indices: 
       edges: []
@@ -325,15 +249,12 @@ TextureImporter:
       - key: SpriteEditor.SliceOnImport
         value: True
     nameFileIdTable:
-      Stone_Tileset_0004_0: -2757989281221194702
-      Stone_Tileset_0004_1: -1087664620
-      Stone_Tileset_0004_2: 236321385
-      Stone_Tileset_0004_3: 1959914740
-      Stone_Tileset_0004_4: -1041175084
-      Stone_Tileset_0004_5: 1700482752
-      Stone_Tileset_0004_6: 1043269949
-      Stone_Tileset_0004_7: -99976604
-      Stone_Tileset_0004_8: 1220725996
+      Stone_Tileset_0011_0: -411986973
+      Stone_Tileset_0011_1: 1993722714
+      Stone_Tileset_0011_2: -94392004
+      Stone_Tileset_0011_3: -768449976
+      Stone_Tileset_0011_4: 515517762
+      Stone_Tileset_0011_5: -1759893329
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
