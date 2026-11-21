@@ -75,6 +75,7 @@ MonoBehaviour:
   fallGravityScale: 7
   jumpCutMultiplier: 0.6
   maxFallSpeed: 20
-  abilityConfig: {fileID: 11400000, guid: 800a6dfe925529e40ab3212df67a9fd7, type: 2}
+  abilityDefinition: {fileID: 11400000, guid: 800a6dfe925529e40ab3212df67a9fd7, type: 2}
   displayName: Grass
+  hudBackgroundColor: {r: 0.35267818, g: 0.72327036, b: 0.19787577, a: 1}
   animationProfile: {fileID: 11400000, guid: 2e7bbfefc37510940aaaf3c6812a88c3, type: 2}

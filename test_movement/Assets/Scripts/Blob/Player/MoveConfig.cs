@@ -38,6 +38,9 @@ namespace BlobGame.Player
         [Header("Presentation")]
         [Tooltip("Material name displayed in the HUD.")]
         [SerializeField] private string displayName;
+        [Tooltip("HUD background color for this material. Choose a shade that keeps the label readable.")]
+        [InspectorName("HUD Background Color")]
+        [SerializeField] private Color hudBackgroundColor = new(0.14117648f, 0.24705882f, 0.17254902f, 1f);
         [Tooltip("Animation set used by this material/movement profile.")]
         [SerializeField] private BlobAnimationProfile animationProfile;
 
@@ -58,6 +61,7 @@ namespace BlobGame.Player
             ? abilityDefinition.AbilityConfig as GrappleConfig
             : null;
         public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
+        public Color HudBackgroundColor => hudBackgroundColor;
         public BlobAnimationProfile AnimationProfile => animationProfile;
         
 
