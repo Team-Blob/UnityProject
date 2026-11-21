@@ -925,6 +925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlobGame.UI.MaterialHUD
   player: {fileID: 0}
   materialLabel: {fileID: 688410329222641900}
+  materialBackground: {fileID: 3255200345799697962}
 --- !u!1 &6467544090912299401
 GameObject:
   m_ObjectHideFlags: 0
