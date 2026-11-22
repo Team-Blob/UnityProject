@@ -727,7 +727,7 @@ MonoBehaviour:
   controlsPanel: {fileID: 886251229}
   mainMenuPanel: {fileID: 1950747984}
   levelCompletePanel: {fileID: 0}
-  playSceneName: LevelDesignTest
+  playSceneName: New Map
 --- !u!224 &603263462
 RectTransform:
   m_ObjectHideFlags: 0
